@@ -150,6 +150,7 @@
             this.btnSettings.TabIndex = 54;
             this.btnSettings.Text = "Settings";
             this.btnSettings.UseVisualStyleBackColor = true;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnSaveHost
             // 

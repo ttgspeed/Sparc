@@ -143,7 +143,14 @@ namespace Sparc
         private BattlEyeLoginCredentials GetLoginCredentials()
         {
             BattlEyeLoginCredentials loginCredentials = new BattlEyeLoginCredentials();
-            loginCredentials.Host = Dns.GetHostAddresses(txHost.Text)[0];
+            try
+            {
+                loginCredentials.Host = Dns.GetHostAddresses(txHost.Text)[0];
+            }
+            catch
+            {
+                MessageBox.Show("Error resolving hostname. Are you using the right address?");
+            }
             loginCredentials.Port = Convert.ToInt32(txPort.Text);
             loginCredentials.Password = txPasswd.Text;
 
@@ -186,6 +193,7 @@ namespace Sparc
 
         private void appendChat(string text, Color color)
         {
+            Flash.FlashWindowEx(this.ParentForm);
             txAll.SelectionColor = color;
             txChat.SelectionColor = color;
             txAll.SelectionFont = new Font("Lucida Console", 8);
@@ -658,5 +666,10 @@ namespace Sparc
             }
         }
         #endregion        
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            Flash.FlashWindowEx(this.ParentForm);
+        }
     }
 }

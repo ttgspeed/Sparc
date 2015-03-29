@@ -230,3 +230,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 Sparc/bin/Debug/servers.xml
+*.xml
+*.suo

@@ -53,6 +53,7 @@
     <Compile Include="Ban.Designer.cs">
       <DependentUpon>Ban.cs</DependentUpon>
     </Compile>
+    <Compile Include="Flash.cs" />
     <Compile Include="Message_Kick.cs">
       <SubType>Form</SubType>
     </Compile>
