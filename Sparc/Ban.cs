@@ -15,5 +15,10 @@ namespace Sparc
         {
             InitializeComponent();
         }
+
+        private void Ban_Load(object sender, EventArgs e)
+        {
+            bpLengthMult.SelectedIndex = 0;
+        }
     }
 }

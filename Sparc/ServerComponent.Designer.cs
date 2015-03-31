@@ -85,6 +85,8 @@
             this.serverRefresh = new System.Windows.Forms.Button();
             this.deleteMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dmDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miQuickBan = new System.Windows.Forms.ToolStripMenuItem();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
@@ -430,9 +432,11 @@
             this.miCopy,
             this.miMessage,
             this.miKick,
-            this.miBan});
+            this.miBan,
+            this.toolStripSeparator2,
+            this.miQuickBan});
             this.playerMenu.Name = "playerMenu";
-            this.playerMenu.Size = new System.Drawing.Size(121, 92);
+            this.playerMenu.Size = new System.Drawing.Size(153, 142);
             // 
             // miCopy
             // 
@@ -441,7 +445,7 @@
             this.msiCopyIP,
             this.msiCopyName});
             this.miCopy.Name = "miCopy";
-            this.miCopy.Size = new System.Drawing.Size(120, 22);
+            this.miCopy.Size = new System.Drawing.Size(152, 22);
             this.miCopy.Text = "Copy";
             // 
             // msiCopyGUID
@@ -468,23 +472,32 @@
             // miMessage
             // 
             this.miMessage.Name = "miMessage";
-            this.miMessage.Size = new System.Drawing.Size(120, 22);
+            this.miMessage.Size = new System.Drawing.Size(152, 22);
             this.miMessage.Text = "Message";
             this.miMessage.Click += new System.EventHandler(this.miMessage_Click);
             // 
             // miKick
             // 
             this.miKick.Name = "miKick";
-            this.miKick.Size = new System.Drawing.Size(120, 22);
+            this.miKick.Size = new System.Drawing.Size(152, 22);
             this.miKick.Text = "Kick";
             this.miKick.Click += new System.EventHandler(this.miKick_Click);
             // 
             // miBan
             // 
             this.miBan.Name = "miBan";
-            this.miBan.Size = new System.Drawing.Size(120, 22);
+            this.miBan.Size = new System.Drawing.Size(152, 22);
             this.miBan.Text = "Ban";
             this.miBan.Click += new System.EventHandler(this.miBan_Click);
+            // 
+            // miQuickBan
+            // 
+            this.miQuickBan.BackColor = System.Drawing.Color.Red;
+            this.miQuickBan.ForeColor = System.Drawing.SystemColors.Control;
+            this.miQuickBan.Name = "miQuickBan";
+            this.miQuickBan.Size = new System.Drawing.Size(152, 22);
+            this.miQuickBan.Text = "Quick Ban";
+            this.miQuickBan.Click += new System.EventHandler(this.miQuickBan_Click);
             // 
             // executeMenu
             // 
@@ -594,6 +607,11 @@
             this.dmDelete.Text = "Delete Server";
             this.dmDelete.Click += new System.EventHandler(this.dmDelete_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            // 
             // ServerComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -695,5 +713,7 @@
         private System.Windows.Forms.Button serverRefresh;
         private System.Windows.Forms.ContextMenuStrip deleteMenu;
         private System.Windows.Forms.ToolStripMenuItem dmDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem miQuickBan;
     }
 }

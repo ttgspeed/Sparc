@@ -73,6 +73,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Sparc";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sparc";
             this.Load += new System.EventHandler(this.Sparc_Load);
             this.panel1.ResumeLayout(false);

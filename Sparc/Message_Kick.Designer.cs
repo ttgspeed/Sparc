@@ -72,6 +72,7 @@
             this.MinimizeBox = false;
             this.Name = "Message_Kick";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Message/Kick Player";
             this.ResumeLayout(false);
             this.PerformLayout();

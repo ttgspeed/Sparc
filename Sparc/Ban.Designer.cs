@@ -39,6 +39,7 @@
             // 
             // bpBanConfirm
             // 
+            this.bpBanConfirm.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.bpBanConfirm.Location = new System.Drawing.Point(15, 103);
             this.bpBanConfirm.Name = "bpBanConfirm";
             this.bpBanConfirm.Size = new System.Drawing.Size(205, 23);
@@ -108,7 +109,9 @@
             this.MinimizeBox = false;
             this.Name = "Ban";
             this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ban";
+            this.Load += new System.EventHandler(this.Ban_Load);
             ((System.ComponentModel.ISupportInitialize)(this.bpLengthInt)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

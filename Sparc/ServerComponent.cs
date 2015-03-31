@@ -118,7 +118,7 @@ namespace Sparc
             //if (args.DisconnectionType == BattlEyeDisconnectionType.Manual) { /* Disconnected by implementing application, that would be you */ }
 
             this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText("\n" + args.Message + "\n"); });
-            handleDisconnect();
+            this.BeginInvoke((MethodInvoker)delegate() { handleDisconnect(); });
         }
 
         private void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
@@ -191,9 +191,20 @@ namespace Sparc
             }
         }
 
+        private void alert(string text)
+        {
+            if (stringContains(text, "admin") && Properties.Settings.Default.flashOnCall)
+            {
+                Flash.FlashWindowEx(this.ParentForm);
+            }
+            if (stringContains(text, Properties.Settings.Default.Username) && Properties.Settings.Default.flashOnCall)
+            {
+                Flash.FlashWindowEx(this.ParentForm);
+            }
+        }
+
         private void appendChat(string text, Color color)
         {
-            Flash.FlashWindowEx(this.ParentForm);
             txAll.SelectionColor = color;
             txChat.SelectionColor = color;
             txAll.SelectionFont = new Font("Lucida Console", 8);
@@ -306,7 +317,7 @@ namespace Sparc
         private void clearPlayerList()
         {
             PlayerCache.Clear();
-            listPlayers.Items.Clear();
+            this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Clear(); });
         }
 
         private void updatePlayerList()
@@ -407,18 +418,21 @@ namespace Sparc
 
             message = (message == "") ? "Admin kick" : message;
 
+            if (Properties.Settings.Default.showKickAdmin)
+                message += " (" + Properties.Settings.Default.Username + ")";
+
             b.SendCommand("kick " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + message);
         }
 
         private void miMessage_Click(object sender, System.EventArgs e)
         {
-            string message = "";
+            string message = "(" + Properties.Settings.Default.Username + "): ";
 
             Message_Kick modal = new Message_Kick();
 
             if (modal.ShowDialog(this) == DialogResult.OK)
             {
-                message = modal.mtxMessage.Text;
+                message += modal.mtxMessage.Text;
             }
             modal.Dispose();
 
@@ -429,6 +443,7 @@ namespace Sparc
         {
             string message = "";
             int time = 0;
+            int timeMessage = 0;
             string mult = "";
 
             Ban modal = new Ban();
@@ -438,6 +453,7 @@ namespace Sparc
                 message = modal.bpBanMessage.Text;
                 mult = modal.bpLengthMult.Text;
                 time = Convert.ToInt32(modal.bpLengthInt.Value);
+                timeMessage = Convert.ToInt32(modal.bpLengthInt.Value);
             }
             modal.Dispose();
 
@@ -462,7 +478,27 @@ namespace Sparc
 
             message = (message == "") ? "Admin ban" : message;
 
+            if (Properties.Settings.Default.showBanLength)
+                message += " " + timeMessage + " " + mult;
+
+            if (Properties.Settings.Default.showBanAdmin)
+                message += " (" + Properties.Settings.Default.Username + ")";
+
             b.SendCommand("ban " + listPlayers.SelectedItems[0].SubItems[0].Text + " "+ time + " " + message);
+        }
+
+        private void miQuickBan_Click(object sender, System.EventArgs e)
+        {
+            string message = Properties.Settings.Default.qbReason;
+            int time = Properties.Settings.Default.qbTime;
+
+            if (Properties.Settings.Default.showBanLength)
+                message += " " + time + " minutes";
+
+            if (Properties.Settings.Default.showBanAdmin)
+                message += " (" + Properties.Settings.Default.Username + ")";
+
+            b.SendCommand("ban " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + time + " " + message);
         }
         #endregion
 
@@ -528,7 +564,7 @@ namespace Sparc
                 if (isConnected && txSay.Text != "")
                 {
                     if (cmdOption.SelectedIndex == 0)
-                        b.SendCommand("say -1 " + txSay.Text);
+                        b.SendCommand("say -1 (" + Properties.Settings.Default.Username + "): "+txSay.Text);
                     else
                         b.SendCommand(txSay.Text);
 
@@ -669,7 +705,19 @@ namespace Sparc
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            Flash.FlashWindowEx(this.ParentForm);
+            Settings st = new Settings();
+            st.Show();
         }
+
+        public static bool stringContains(string source, string toCheck)
+        {
+            return source.IndexOf(toCheck, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private string getTimestamp()
+        {
+            return "[dd MMM, yyyy | HH:mm:ss] ";
+        }
+
     }
 }

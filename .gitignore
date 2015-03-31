@@ -6,6 +6,11 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.lnk
+Sparc/bin/Debug/servers.xml
+*.xml
+*.suo
+*.*.suo
 
 # Build results
 [Dd]ebug/
@@ -228,7 +233,3 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk
-Sparc/bin/Debug/servers.xml
-*.xml
-*.suo
