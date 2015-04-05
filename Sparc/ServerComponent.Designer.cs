@@ -71,6 +71,8 @@
             this.miMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.miKick = new System.Windows.Forms.ToolStripMenuItem();
             this.miBan = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.miQuickBan = new System.Windows.Forms.ToolStripMenuItem();
             this.executeMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.exScripts = new System.Windows.Forms.ToolStripMenuItem();
             this.exBans = new System.Windows.Forms.ToolStripMenuItem();
@@ -85,8 +87,6 @@
             this.serverRefresh = new System.Windows.Forms.Button();
             this.deleteMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dmDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.miQuickBan = new System.Windows.Forms.ToolStripMenuItem();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
@@ -288,6 +288,7 @@
             this.txAll.Size = new System.Drawing.Size(1077, 203);
             this.txAll.TabIndex = 0;
             this.txAll.Text = "";
+            this.txAll.TextChanged += new System.EventHandler(this.txAll_TextChanged);
             // 
             // tabChat
             // 
@@ -436,7 +437,7 @@
             this.toolStripSeparator2,
             this.miQuickBan});
             this.playerMenu.Name = "playerMenu";
-            this.playerMenu.Size = new System.Drawing.Size(153, 142);
+            this.playerMenu.Size = new System.Drawing.Size(129, 120);
             // 
             // miCopy
             // 
@@ -445,7 +446,7 @@
             this.msiCopyIP,
             this.msiCopyName});
             this.miCopy.Name = "miCopy";
-            this.miCopy.Size = new System.Drawing.Size(152, 22);
+            this.miCopy.Size = new System.Drawing.Size(128, 22);
             this.miCopy.Text = "Copy";
             // 
             // msiCopyGUID
@@ -472,30 +473,35 @@
             // miMessage
             // 
             this.miMessage.Name = "miMessage";
-            this.miMessage.Size = new System.Drawing.Size(152, 22);
+            this.miMessage.Size = new System.Drawing.Size(128, 22);
             this.miMessage.Text = "Message";
             this.miMessage.Click += new System.EventHandler(this.miMessage_Click);
             // 
             // miKick
             // 
             this.miKick.Name = "miKick";
-            this.miKick.Size = new System.Drawing.Size(152, 22);
+            this.miKick.Size = new System.Drawing.Size(128, 22);
             this.miKick.Text = "Kick";
             this.miKick.Click += new System.EventHandler(this.miKick_Click);
             // 
             // miBan
             // 
             this.miBan.Name = "miBan";
-            this.miBan.Size = new System.Drawing.Size(152, 22);
+            this.miBan.Size = new System.Drawing.Size(128, 22);
             this.miBan.Text = "Ban";
             this.miBan.Click += new System.EventHandler(this.miBan_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(125, 6);
             // 
             // miQuickBan
             // 
             this.miQuickBan.BackColor = System.Drawing.Color.Red;
             this.miQuickBan.ForeColor = System.Drawing.SystemColors.Control;
             this.miQuickBan.Name = "miQuickBan";
-            this.miQuickBan.Size = new System.Drawing.Size(152, 22);
+            this.miQuickBan.Size = new System.Drawing.Size(128, 22);
             this.miQuickBan.Text = "Quick Ban";
             this.miQuickBan.Click += new System.EventHandler(this.miQuickBan_Click);
             // 
@@ -606,11 +612,6 @@
             this.dmDelete.Size = new System.Drawing.Size(142, 22);
             this.dmDelete.Text = "Delete Server";
             this.dmDelete.Click += new System.EventHandler(this.dmDelete_Click);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // ServerComponent
             // 

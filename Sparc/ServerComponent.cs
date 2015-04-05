@@ -54,7 +54,15 @@ namespace Sparc
             }
             else
             {
-                handleConnect();
+                loginCredentials = GetLoginCredentials();
+                b = new BattlEyeClient(loginCredentials);
+                b.BattlEyeMessageReceived += BattlEyeMessageReceived;
+                b.BattlEyeConnected += BattlEyeConnected;
+                b.BattlEyeDisconnected += BattlEyeDisconnected;
+                b.ReconnectOnPacketLoss = true;
+                b.Connect();
+
+                //handleConnect();
             }
         }
 
@@ -69,14 +77,7 @@ namespace Sparc
 
         private void handleConnect()
         {
-            loginCredentials = GetLoginCredentials();
-            b = new BattlEyeClient(loginCredentials);
-            b.BattlEyeMessageReceived += BattlEyeMessageReceived;
-            b.BattlEyeConnected += BattlEyeConnected;
-            b.BattlEyeDisconnected += BattlEyeDisconnected;
-            b.ReconnectOnPacketLoss = true;
-            b.Connect();
-
+            isConnected = true;
             btnConnect.Text = "Disconnect";
             this.Parent.Text = txHost.Text;
             btnExecute.Enabled = true;
@@ -104,21 +105,25 @@ namespace Sparc
 
         private void BattlEyeConnected(BattlEyeConnectEventArgs args)
         {
-            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { txAll.AppendText("Connection successful\n"); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { txAll.AppendText("Invalid login details\n"); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { txAll.AppendText("Connection failed"); }
+            bool connected = false;
+            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection successful\n", Color.Black); connected = true; }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { appendChat("Invalid login details\n", Color.Black); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection failed\n", Color.Black); }); }
 
-            isConnected = true;
+            if(connected)
+                this.Invoke((MethodInvoker)delegate() { handleConnect(); });
+            else
+                this.Invoke((MethodInvoker)delegate() { handleDisconnect(); });
         }
 
         private void BattlEyeDisconnected(BattlEyeDisconnectEventArgs args)
         {
-            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText("Connection lost (timeout). Attempting to reconnect.\n"); }); };
-            //if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { /* Something went terribly wrong... */ }
+            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { appendChat("Connection lost (timeout). Attempting to reconnect.\n", Color.Black); }); }); };
+            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection closed (socket error)\n", Color.Black); }); }
             //if (args.DisconnectionType == BattlEyeDisconnectionType.Manual) { /* Disconnected by implementing application, that would be you */ }
 
             this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText("\n" + args.Message + "\n"); });
-            this.BeginInvoke((MethodInvoker)delegate() { handleDisconnect(); });
+            this.Invoke((MethodInvoker)delegate() { handleDisconnect(); });
         }
 
         private void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
@@ -132,9 +137,9 @@ namespace Sparc
                 if (IsHandleCreated)
                 {
                     if (InvokeRequired)
-                        this.Invoke((MethodInvoker)delegate() { this.formatText(args.Message); });
+                        this.Invoke((MethodInvoker)delegate() { this.formatChat(args.Message); });
                     else
-                        this.formatText(args.Message);
+                        this.formatChat(args.Message);
                 }
                 
             }
@@ -151,10 +156,13 @@ namespace Sparc
             {
                 MessageBox.Show("Error resolving hostname. Are you using the right address?");
             }
-            loginCredentials.Port = Convert.ToInt32(txPort.Text);
+
+            try { loginCredentials.Port = Convert.ToInt32(txPort.Text); }
+            catch { loginCredentials.Port = 3202; };
+
             loginCredentials.Password = txPasswd.Text;
 
-            txAll.AppendText(Dns.GetHostAddresses(txHost.Text)[0] + "\n");
+            txAll.AppendText(txHost.Text+" ("+Dns.GetHostAddresses(txHost.Text)[0] + ")\n");
 
             return loginCredentials;
         }
@@ -163,9 +171,9 @@ namespace Sparc
         /*
          * Console / Chat Box handlers
          */
-        #region CONSL_HANDLE
+        #region CHAT_CONSL_HANDLE
 
-        private void formatText(string text)
+        private void formatChat(string text)
         {
             if (text.Contains("(Direct)"))
             {
@@ -191,7 +199,7 @@ namespace Sparc
             }
         }
 
-        private void alert(string text)
+        private void chatAlert(string text)
         {
             if (stringContains(text, "admin") && Properties.Settings.Default.flashOnCall)
             {
@@ -205,6 +213,8 @@ namespace Sparc
 
         private void appendChat(string text, Color color)
         {
+            chatAlert(text);
+
             txAll.SelectionColor = color;
             txChat.SelectionColor = color;
             txAll.SelectionFont = new Font("Lucida Console", 8);
@@ -228,9 +238,10 @@ namespace Sparc
             }
         }
 
+
         private void txChat_TextChanged(object sender, EventArgs e)
         {
-            if (txChat.Visible && autoScroll.Checked)
+            if (autoScroll.Checked)
             {
                 txChat.SelectionStart = txChat.TextLength;
                 txChat.ScrollToCaret();
@@ -718,6 +729,5 @@ namespace Sparc
         {
             return "[dd MMM, yyyy | HH:mm:ss] ";
         }
-
     }
 }
