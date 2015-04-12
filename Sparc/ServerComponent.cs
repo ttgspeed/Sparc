@@ -11,6 +11,7 @@ using BattleNET;
 using System.Net;
 using System.Xml;
 using Extensions;
+using System.Threading.Tasks;
 
 namespace Sparc
 {
@@ -82,7 +83,7 @@ namespace Sparc
             }
         }
 
-        private void handleConnect()
+        private async void handleConnect()
         {
             isConnected = true;
             btnConnect.Text = "Disconnect";
@@ -93,9 +94,13 @@ namespace Sparc
             txSay.Enabled = true;
 
             getPlayerList();
+
+            await Task.Delay(1000);
+            playerCount.Text = listPlayers.Items.Count.ToString();
+            adminCount.Text = listAdmins.Items.Count.ToString();
         }
 
-        private void handleDisconnect()
+        private async void handleDisconnect()
         {
             clearPlayerList();
             clearBanList();
@@ -106,6 +111,10 @@ namespace Sparc
             btnPlayerRefresh.Enabled = false;
             btnBanRefresh.Enabled = false;
             txSay.Enabled = false;
+
+            await Task.Delay(1000);
+            playerCount.Text = listPlayers.Items.Count.ToString();
+            adminCount.Text = listAdmins.Items.Count.ToString();
         }
         #endregion
 
@@ -117,9 +126,9 @@ namespace Sparc
         private void BattlEyeConnected(BattlEyeConnectEventArgs args)
         {
             bool connected = false;
-            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { appendChat("\nConnection successful\n", Color.Black); connected = true; }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { appendChat("\nInvalid login details\n", Color.Black); }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { appendChat("\nConnection failed\n", Color.Black); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection successful!", Color.Black); connected = true; }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { appendChat("Invalid login details!", Color.Black); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection failed!", Color.Black); }); }
 
             if (connected)
                 this.Invoke((MethodInvoker)delegate() { handleConnect(); });
@@ -129,8 +138,8 @@ namespace Sparc
 
         private void BattlEyeDisconnected(BattlEyeDisconnectEventArgs args)
         {
-            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { appendChat("\nConnection lost (timeout). Attempting to reconnect.\n", Color.Black); }); }); };
-            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { appendChat("\nConnection closed (socket error)\n", Color.Black); }); }
+            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { appendChat("Connection lost (timeout). Attempting to reconnect.", Color.Black); }); }); };
+            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection closed (socket error)", Color.Black); }); }
             //if (args.DisconnectionType == BattlEyeDisconnectionType.Manual) { /* Disconnected by implementing application, that would be you */ }
 
             this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText("\n" + args.Message + "\n"); });
@@ -226,6 +235,9 @@ namespace Sparc
                 txAll.SelectionColor = Color.Black;
                 txAll.SelectionFont = new Font("Lucida Console", 8);
                 txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+                txConsole.SelectionColor = Color.Black;
+                txConsole.SelectionFont = new Font("Lucida Console", 8);
+                txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
             }
         }
 
@@ -461,7 +473,9 @@ namespace Sparc
 
         private void getPlayerList()
         {
+            clearPlayerList();
             b.SendCommand("players");
+            clearAdminList();
             b.SendCommand("admins");
         }
 
@@ -533,18 +547,20 @@ namespace Sparc
             return isCached;
         }*/
 
-        private void btnPlayerRefresh_Click(object sender, EventArgs e)
+        private async void btnPlayerRefresh_Click(object sender, EventArgs e)
         {
             getPlayerList();
 
+            await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
         }
 
-        private void btnBanRefresh_Click(object sender, EventArgs e)
+        private async void btnBanRefresh_Click(object sender, EventArgs e)
         {
             getBanList();
 
+            await Task.Delay(1000);
             banCount.Text = listBans.Items.Count.ToString();
         }
 
