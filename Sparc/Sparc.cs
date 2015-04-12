@@ -60,5 +60,24 @@ namespace Sparc
                 servers.Save(@"servers.xml");
             }
         }
+
+        private void tabServers_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                // iterate through all the tab pages AND make sure this can't be triggered on first and last tab
+                for (int i = 1; i < tabServers.TabCount - 1; i++)
+                {
+                    // get their rectangle area and check if it contains the mouse cursor
+                    Rectangle r = tabServers.GetTabRect(i);
+                    if (r.Contains(e.Location))
+                    {
+                        // show the context menu here
+                        this.tabServers.TabPages.Remove(this.tabServers.TabPages[i] as TabPage);
+                        tabServers.SelectedIndex = i - 1;
+                    }
+                }
+            }
+        }
     }
 }

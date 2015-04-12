@@ -37,7 +37,7 @@
             this.btnSaveHost = new System.Windows.Forms.Button();
             this.btnLoadHost = new System.Windows.Forms.Button();
             this.btnExecute = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
+            this.btnPlayerRefresh = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.txPasswd = new System.Windows.Forms.TextBox();
@@ -63,11 +63,20 @@
             this.columnPing = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabBans = new System.Windows.Forms.TabPage();
             this.listBans = new System.Windows.Forms.ListView();
+            this.columnbanNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnGUIDIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnMinutesLeft = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnReason = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabAdmins = new System.Windows.Forms.TabPage();
+            this.listAdmins = new System.Windows.Forms.ListView();
+            this.adminNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.adminIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.playerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyGUID = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyIP = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.miMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.miKick = new System.Windows.Forms.ToolStripMenuItem();
             this.miBan = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,11 +91,29 @@
             this.exUnlock = new System.Windows.Forms.ToolStripMenuItem();
             this.exRestart = new System.Windows.Forms.ToolStripMenuItem();
             this.exShutdown = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.exAddMultipleBans = new System.Windows.Forms.ToolStripMenuItem();
             this.listServers = new System.Windows.Forms.ListView();
             this.columnServer = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.serverRefresh = new System.Windows.Forms.Button();
             this.deleteMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.dmDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnBanRefresh = new System.Windows.Forms.Button();
+            this.bannedMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyGUIDIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unbanToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.removeAllExpiredBansToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.charCount = new System.Windows.Forms.Label();
+            this.searchLabel = new System.Windows.Forms.Label();
+            this.searchBox = new System.Windows.Forms.ComboBox();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
+            this.playersLabel = new System.Windows.Forms.Label();
+            this.playerCount = new System.Windows.Forms.Label();
+            this.adminLabel = new System.Windows.Forms.Label();
+            this.adminCount = new System.Windows.Forms.Label();
+            this.banLabel = new System.Windows.Forms.Label();
+            this.banCount = new System.Windows.Forms.Label();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
@@ -94,25 +121,29 @@
             this.tabPlayer.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabBans.SuspendLayout();
+            this.tabAdmins.SuspendLayout();
             this.playerMenu.SuspendLayout();
             this.executeMenu.SuspendLayout();
             this.deleteMenu.SuspendLayout();
+            this.bannedMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdOption
             // 
+            this.cmdOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cmdOption.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmdOption.FormattingEnabled = true;
             this.cmdOption.Items.AddRange(new object[] {
             "Say (Global)",
             "Command"});
-            this.cmdOption.Location = new System.Drawing.Point(192, 537);
+            this.cmdOption.Location = new System.Drawing.Point(192, 536);
             this.cmdOption.Name = "cmdOption";
-            this.cmdOption.Size = new System.Drawing.Size(121, 21);
+            this.cmdOption.Size = new System.Drawing.Size(86, 21);
             this.cmdOption.TabIndex = 58;
             // 
             // autoRefresh
             // 
+            this.autoRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.autoRefresh.AutoSize = true;
             this.autoRefresh.Checked = true;
             this.autoRefresh.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -125,6 +156,7 @@
             // 
             // autoScroll
             // 
+            this.autoScroll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.autoScroll.AutoSize = true;
             this.autoScroll.Checked = true;
             this.autoScroll.CheckState = System.Windows.Forms.CheckState.Checked;
@@ -137,16 +169,21 @@
             // 
             // txSay
             // 
+            this.txSay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txSay.Enabled = false;
-            this.txSay.Location = new System.Drawing.Point(319, 537);
+            this.txSay.Location = new System.Drawing.Point(338, 537);
+            this.txSay.MaxLength = 400;
             this.txSay.Name = "txSay";
-            this.txSay.Size = new System.Drawing.Size(770, 20);
+            this.txSay.Size = new System.Drawing.Size(751, 20);
             this.txSay.TabIndex = 55;
+            this.txSay.TextChanged += new System.EventHandler(this.txSay_TextChanged);
             this.txSay.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txSay_KeyDown);
             // 
             // btnSettings
             // 
-            this.btnSettings.Location = new System.Drawing.Point(3, 501);
+            this.btnSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnSettings.Location = new System.Drawing.Point(3, 530);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(160, 23);
             this.btnSettings.TabIndex = 54;
@@ -176,8 +213,9 @@
             // 
             // btnExecute
             // 
+            this.btnExecute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnExecute.Enabled = false;
-            this.btnExecute.Location = new System.Drawing.Point(3, 472);
+            this.btnExecute.Location = new System.Drawing.Point(3, 501);
             this.btnExecute.Name = "btnExecute";
             this.btnExecute.Size = new System.Drawing.Size(160, 23);
             this.btnExecute.TabIndex = 51;
@@ -185,19 +223,21 @@
             this.btnExecute.UseVisualStyleBackColor = true;
             this.btnExecute.Click += new System.EventHandler(this.btnExecute_Click);
             // 
-            // btnRefresh
+            // btnPlayerRefresh
             // 
-            this.btnRefresh.Enabled = false;
-            this.btnRefresh.Location = new System.Drawing.Point(3, 443);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(160, 23);
-            this.btnRefresh.TabIndex = 50;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            this.btnPlayerRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPlayerRefresh.Enabled = false;
+            this.btnPlayerRefresh.Location = new System.Drawing.Point(3, 443);
+            this.btnPlayerRefresh.Name = "btnPlayerRefresh";
+            this.btnPlayerRefresh.Size = new System.Drawing.Size(160, 23);
+            this.btnPlayerRefresh.TabIndex = 50;
+            this.btnPlayerRefresh.Text = "Refresh Players";
+            this.btnPlayerRefresh.UseVisualStyleBackColor = true;
+            this.btnPlayerRefresh.Click += new System.EventHandler(this.btnPlayerRefresh_Click);
             // 
             // btnConnect
             // 
+            this.btnConnect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnConnect.Location = new System.Drawing.Point(3, 414);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(160, 23);
@@ -258,75 +298,89 @@
             // chatTabs
             // 
             this.chatTabs.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.chatTabs.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.chatTabs.Controls.Add(this.tabAll);
             this.chatTabs.Controls.Add(this.tabChat);
             this.chatTabs.Controls.Add(this.tabConsole);
-            this.chatTabs.Location = new System.Drawing.Point(169, 311);
+            this.chatTabs.Location = new System.Drawing.Point(169, 322);
             this.chatTabs.Multiline = true;
             this.chatTabs.Name = "chatTabs";
             this.chatTabs.SelectedIndex = 0;
-            this.chatTabs.Size = new System.Drawing.Size(1110, 217);
+            this.chatTabs.Size = new System.Drawing.Size(1110, 206);
             this.chatTabs.TabIndex = 41;
             // 
             // tabAll
             // 
+            this.tabAll.BackColor = System.Drawing.Color.Transparent;
+            this.tabAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabAll.Controls.Add(this.txAll);
             this.tabAll.Location = new System.Drawing.Point(23, 4);
             this.tabAll.Name = "tabAll";
             this.tabAll.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAll.Size = new System.Drawing.Size(1083, 209);
+            this.tabAll.Size = new System.Drawing.Size(1083, 198);
             this.tabAll.TabIndex = 0;
             this.tabAll.Text = "All";
-            this.tabAll.UseVisualStyleBackColor = true;
             // 
             // txAll
             // 
+            this.txAll.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txAll.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txAll.Location = new System.Drawing.Point(3, 3);
             this.txAll.Name = "txAll";
             this.txAll.ReadOnly = true;
-            this.txAll.Size = new System.Drawing.Size(1077, 203);
+            this.txAll.Size = new System.Drawing.Size(1075, 190);
             this.txAll.TabIndex = 0;
             this.txAll.Text = "";
             this.txAll.TextChanged += new System.EventHandler(this.txAll_TextChanged);
             // 
             // tabChat
             // 
+            this.tabChat.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabChat.Controls.Add(this.txChat);
             this.tabChat.Location = new System.Drawing.Point(23, 4);
             this.tabChat.Name = "tabChat";
-            this.tabChat.Size = new System.Drawing.Size(1083, 209);
+            this.tabChat.Size = new System.Drawing.Size(1083, 198);
             this.tabChat.TabIndex = 2;
             this.tabChat.Text = "Chat";
             this.tabChat.UseVisualStyleBackColor = true;
             // 
             // txChat
             // 
+            this.txChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txChat.Location = new System.Drawing.Point(3, 3);
             this.txChat.Name = "txChat";
             this.txChat.ReadOnly = true;
-            this.txChat.Size = new System.Drawing.Size(1077, 203);
+            this.txChat.Size = new System.Drawing.Size(1075, 190);
             this.txChat.TabIndex = 1;
             this.txChat.Text = "";
             this.txChat.TextChanged += new System.EventHandler(this.txChat_TextChanged);
             // 
             // tabConsole
             // 
+            this.tabConsole.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabConsole.Controls.Add(this.txConsole);
             this.tabConsole.Location = new System.Drawing.Point(23, 4);
             this.tabConsole.Name = "tabConsole";
             this.tabConsole.Padding = new System.Windows.Forms.Padding(3);
-            this.tabConsole.Size = new System.Drawing.Size(1083, 209);
+            this.tabConsole.Size = new System.Drawing.Size(1083, 198);
             this.tabConsole.TabIndex = 1;
             this.tabConsole.Text = "Console";
             this.tabConsole.UseVisualStyleBackColor = true;
             // 
             // txConsole
             // 
+            this.txConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txConsole.Location = new System.Drawing.Point(3, 3);
             this.txConsole.Name = "txConsole";
             this.txConsole.ReadOnly = true;
-            this.txConsole.Size = new System.Drawing.Size(1077, 203);
+            this.txConsole.Size = new System.Drawing.Size(1075, 190);
             this.txConsole.TabIndex = 0;
             this.txConsole.Text = "";
             this.txConsole.TextChanged += new System.EventHandler(this.txConsole_TextChanged);
@@ -334,14 +388,19 @@
             // tabPlayer
             // 
             this.tabPlayer.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.tabPlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabPlayer.Controls.Add(this.tabPlayers);
             this.tabPlayer.Controls.Add(this.tabBans);
+            this.tabPlayer.Controls.Add(this.tabAdmins);
             this.tabPlayer.Location = new System.Drawing.Point(169, 6);
             this.tabPlayer.Multiline = true;
             this.tabPlayer.Name = "tabPlayer";
             this.tabPlayer.SelectedIndex = 0;
-            this.tabPlayer.Size = new System.Drawing.Size(1111, 299);
+            this.tabPlayer.Size = new System.Drawing.Size(1111, 292);
             this.tabPlayer.TabIndex = 40;
+            this.tabPlayer.SelectedIndexChanged += new System.EventHandler(this.tabPlayer_SelectedIndexChanged);
             // 
             // tabPlayers
             // 
@@ -350,7 +409,7 @@
             this.tabPlayers.Location = new System.Drawing.Point(23, 4);
             this.tabPlayers.Name = "tabPlayers";
             this.tabPlayers.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPlayers.Size = new System.Drawing.Size(1084, 291);
+            this.tabPlayers.Size = new System.Drawing.Size(1084, 284);
             this.tabPlayers.TabIndex = 0;
             this.tabPlayers.Text = "Players";
             this.tabPlayers.UseVisualStyleBackColor = true;
@@ -369,8 +428,9 @@
             this.listPlayers.GridLines = true;
             this.listPlayers.HideSelection = false;
             this.listPlayers.Location = new System.Drawing.Point(3, 3);
+            this.listPlayers.MultiSelect = false;
             this.listPlayers.Name = "listPlayers";
-            this.listPlayers.Size = new System.Drawing.Size(1076, 283);
+            this.listPlayers.Size = new System.Drawing.Size(1076, 276);
             this.listPlayers.TabIndex = 0;
             this.listPlayers.UseCompatibleStateImageBehavior = false;
             this.listPlayers.View = System.Windows.Forms.View.Details;
@@ -399,7 +459,7 @@
             // columnIP
             // 
             this.columnIP.Text = "IP";
-            this.columnIP.Width = 85;
+            this.columnIP.Width = 95;
             // 
             // columnPing
             // 
@@ -408,36 +468,104 @@
             // 
             // tabBans
             // 
+            this.tabBans.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tabBans.Controls.Add(this.listBans);
             this.tabBans.Location = new System.Drawing.Point(23, 4);
             this.tabBans.Name = "tabBans";
             this.tabBans.Padding = new System.Windows.Forms.Padding(3);
-            this.tabBans.Size = new System.Drawing.Size(1084, 291);
+            this.tabBans.Size = new System.Drawing.Size(1084, 284);
             this.tabBans.TabIndex = 1;
             this.tabBans.Text = "Bans";
             this.tabBans.UseVisualStyleBackColor = true;
             // 
             // listBans
             // 
+            this.listBans.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnbanNumber,
+            this.columnGUIDIP,
+            this.columnMinutesLeft,
+            this.columnReason});
             this.listBans.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBans.FullRowSelect = true;
+            this.listBans.GridLines = true;
             this.listBans.HideSelection = false;
             this.listBans.Location = new System.Drawing.Point(3, 3);
+            this.listBans.MultiSelect = false;
             this.listBans.Name = "listBans";
-            this.listBans.Size = new System.Drawing.Size(1078, 285);
+            this.listBans.Size = new System.Drawing.Size(1076, 276);
             this.listBans.TabIndex = 1;
             this.listBans.UseCompatibleStateImageBehavior = false;
+            this.listBans.View = System.Windows.Forms.View.Details;
+            this.listBans.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listBans_MouseClick);
+            // 
+            // columnbanNumber
+            // 
+            this.columnbanNumber.Text = "#";
+            // 
+            // columnGUIDIP
+            // 
+            this.columnGUIDIP.Text = "GUID/IP";
+            this.columnGUIDIP.Width = 307;
+            // 
+            // columnMinutesLeft
+            // 
+            this.columnMinutesLeft.Text = "Minutes left";
+            this.columnMinutesLeft.Width = 158;
+            // 
+            // columnReason
+            // 
+            this.columnReason.Text = "Reason";
+            this.columnReason.Width = 307;
+            // 
+            // tabAdmins
+            // 
+            this.tabAdmins.Controls.Add(this.listAdmins);
+            this.tabAdmins.Location = new System.Drawing.Point(23, 4);
+            this.tabAdmins.Name = "tabAdmins";
+            this.tabAdmins.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAdmins.Size = new System.Drawing.Size(1084, 284);
+            this.tabAdmins.TabIndex = 2;
+            this.tabAdmins.Text = "Admins";
+            this.tabAdmins.UseVisualStyleBackColor = true;
+            // 
+            // listAdmins
+            // 
+            this.listAdmins.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.adminNumber,
+            this.adminIP});
+            this.listAdmins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listAdmins.FullRowSelect = true;
+            this.listAdmins.GridLines = true;
+            this.listAdmins.HideSelection = false;
+            this.listAdmins.Location = new System.Drawing.Point(3, 3);
+            this.listAdmins.MultiSelect = false;
+            this.listAdmins.Name = "listAdmins";
+            this.listAdmins.Size = new System.Drawing.Size(1078, 278);
+            this.listAdmins.TabIndex = 2;
+            this.listAdmins.UseCompatibleStateImageBehavior = false;
+            this.listAdmins.View = System.Windows.Forms.View.Details;
+            // 
+            // adminNumber
+            // 
+            this.adminNumber.Text = "#";
+            // 
+            // adminIP
+            // 
+            this.adminIP.Text = "IP";
+            this.adminIP.Width = 95;
             // 
             // playerMenu
             // 
             this.playerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopy,
+            this.toolStripSeparator4,
             this.miMessage,
             this.miKick,
             this.miBan,
             this.toolStripSeparator2,
             this.miQuickBan});
             this.playerMenu.Name = "playerMenu";
-            this.playerMenu.Size = new System.Drawing.Size(129, 120);
+            this.playerMenu.Size = new System.Drawing.Size(129, 126);
             // 
             // miCopy
             // 
@@ -469,6 +597,11 @@
             this.msiCopyName.Size = new System.Drawing.Size(106, 22);
             this.msiCopyName.Text = "Name";
             this.msiCopyName.Click += new System.EventHandler(this.msiCopyName_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(125, 6);
             // 
             // miMessage
             // 
@@ -515,79 +648,103 @@
             this.exLock,
             this.exUnlock,
             this.exRestart,
-            this.exShutdown});
+            this.exShutdown,
+            this.toolStripSeparator3,
+            this.exAddMultipleBans});
             this.executeMenu.Name = "executeMenu";
-            this.executeMenu.Size = new System.Drawing.Size(164, 164);
+            this.executeMenu.Size = new System.Drawing.Size(222, 192);
             // 
             // exScripts
             // 
             this.exScripts.Name = "exScripts";
-            this.exScripts.Size = new System.Drawing.Size(163, 22);
+            this.exScripts.Size = new System.Drawing.Size(221, 22);
             this.exScripts.Text = "Reload Scripts";
             this.exScripts.Click += new System.EventHandler(this.exScripts_Click);
             // 
             // exBans
             // 
             this.exBans.Name = "exBans";
-            this.exBans.Size = new System.Drawing.Size(163, 22);
+            this.exBans.Size = new System.Drawing.Size(221, 22);
             this.exBans.Text = "Reload Bans";
             this.exBans.Click += new System.EventHandler(this.exBans_Click);
             // 
             // exEvents
             // 
             this.exEvents.Name = "exEvents";
-            this.exEvents.Size = new System.Drawing.Size(163, 22);
+            this.exEvents.Size = new System.Drawing.Size(221, 22);
             this.exEvents.Text = "Reload Events";
             this.exEvents.Click += new System.EventHandler(this.exEvents_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(160, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(218, 6);
             // 
             // exLock
             // 
             this.exLock.Name = "exLock";
-            this.exLock.Size = new System.Drawing.Size(163, 22);
+            this.exLock.Size = new System.Drawing.Size(221, 22);
             this.exLock.Text = "Lock Server";
             this.exLock.Click += new System.EventHandler(this.exLock_Click);
             // 
             // exUnlock
             // 
             this.exUnlock.Name = "exUnlock";
-            this.exUnlock.Size = new System.Drawing.Size(163, 22);
+            this.exUnlock.Size = new System.Drawing.Size(221, 22);
             this.exUnlock.Text = "Unlock Server";
             this.exUnlock.Click += new System.EventHandler(this.exUnlock_Click);
             // 
             // exRestart
             // 
             this.exRestart.Name = "exRestart";
-            this.exRestart.Size = new System.Drawing.Size(163, 22);
+            this.exRestart.Size = new System.Drawing.Size(221, 22);
             this.exRestart.Text = "Restart Server";
             this.exRestart.Click += new System.EventHandler(this.exRestart_Click);
             // 
             // exShutdown
             // 
+            this.exShutdown.BackColor = System.Drawing.Color.Red;
+            this.exShutdown.ForeColor = System.Drawing.Color.White;
             this.exShutdown.Name = "exShutdown";
-            this.exShutdown.Size = new System.Drawing.Size(163, 22);
+            this.exShutdown.Size = new System.Drawing.Size(221, 22);
             this.exShutdown.Text = "Shutdown Server";
             this.exShutdown.Click += new System.EventHandler(this.exShutdown_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(218, 6);
+            // 
+            // exAddMultipleBans
+            // 
+            this.exAddMultipleBans.Name = "exAddMultipleBans";
+            this.exAddMultipleBans.Size = new System.Drawing.Size(221, 22);
+            this.exAddMultipleBans.Text = "Manually add multiple bans";
+            this.exAddMultipleBans.Click += new System.EventHandler(this.exAddMultipleBans_Click);
             // 
             // listServers
             // 
             this.listServers.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnServer});
+            this.listServers.FullRowSelect = true;
             this.listServers.Location = new System.Drawing.Point(3, 10);
+            this.listServers.MultiSelect = false;
             this.listServers.Name = "listServers";
+            this.listServers.Scrollable = false;
             this.listServers.Size = new System.Drawing.Size(160, 195);
             this.listServers.TabIndex = 59;
             this.listServers.UseCompatibleStateImageBehavior = false;
             this.listServers.View = System.Windows.Forms.View.Details;
+            this.listServers.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listServers_ColumnClick);
+            this.listServers.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listServers_ColumnWidthChanging);
+            this.listServers.Click += new System.EventHandler(this.listServers_Click);
+            this.listServers.DoubleClick += new System.EventHandler(this.listServers_DoubleClick);
             this.listServers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listServers_MouseClick);
             // 
             // columnServer
             // 
-            this.columnServer.Text = "Server";
+            this.columnServer.Text = "Server (double click)";
+            this.columnServer.Width = 158;
             // 
             // serverRefresh
             // 
@@ -613,10 +770,175 @@
             this.dmDelete.Text = "Delete Server";
             this.dmDelete.Click += new System.EventHandler(this.dmDelete_Click);
             // 
+            // btnBanRefresh
+            // 
+            this.btnBanRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnBanRefresh.Enabled = false;
+            this.btnBanRefresh.Location = new System.Drawing.Point(3, 472);
+            this.btnBanRefresh.Name = "btnBanRefresh";
+            this.btnBanRefresh.Size = new System.Drawing.Size(160, 23);
+            this.btnBanRefresh.TabIndex = 61;
+            this.btnBanRefresh.Text = "Refresh Bans";
+            this.btnBanRefresh.UseVisualStyleBackColor = true;
+            this.btnBanRefresh.Click += new System.EventHandler(this.btnBanRefresh_Click);
+            // 
+            // bannedMenu
+            // 
+            this.bannedMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyGUIDIPToolStripMenuItem,
+            this.unbanToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.removeAllExpiredBansToolStripMenuItem});
+            this.bannedMenu.Name = "bannedMenu";
+            this.bannedMenu.Size = new System.Drawing.Size(202, 76);
+            // 
+            // copyGUIDIPToolStripMenuItem
+            // 
+            this.copyGUIDIPToolStripMenuItem.Name = "copyGUIDIPToolStripMenuItem";
+            this.copyGUIDIPToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.copyGUIDIPToolStripMenuItem.Text = "Copy GUID/IP";
+            this.copyGUIDIPToolStripMenuItem.Click += new System.EventHandler(this.banCopyGUIDIP_Click);
+            // 
+            // unbanToolStripMenuItem
+            // 
+            this.unbanToolStripMenuItem.Name = "unbanToolStripMenuItem";
+            this.unbanToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.unbanToolStripMenuItem.Text = "Unban";
+            this.unbanToolStripMenuItem.Click += new System.EventHandler(this.banUnban_Click);
+            // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(198, 6);
+            // 
+            // removeAllExpiredBansToolStripMenuItem
+            // 
+            this.removeAllExpiredBansToolStripMenuItem.Name = "removeAllExpiredBansToolStripMenuItem";
+            this.removeAllExpiredBansToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.removeAllExpiredBansToolStripMenuItem.Text = "Remove all expired bans";
+            this.removeAllExpiredBansToolStripMenuItem.Click += new System.EventHandler(this.banRemoveAllExpiredBans_Click);
+            // 
+            // charCount
+            // 
+            this.charCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.charCount.BackColor = System.Drawing.SystemColors.Control;
+            this.charCount.Location = new System.Drawing.Point(284, 540);
+            this.charCount.Name = "charCount";
+            this.charCount.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.charCount.Size = new System.Drawing.Size(48, 13);
+            this.charCount.TabIndex = 62;
+            this.charCount.Text = "0/400";
+            this.charCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // searchLabel
+            // 
+            this.searchLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.searchLabel.AutoSize = true;
+            this.searchLabel.Location = new System.Drawing.Point(193, 306);
+            this.searchLabel.Name = "searchLabel";
+            this.searchLabel.Size = new System.Drawing.Size(44, 13);
+            this.searchLabel.TabIndex = 63;
+            this.searchLabel.Text = "Search:";
+            // 
+            // searchBox
+            // 
+            this.searchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.searchBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.searchBox.FormattingEnabled = true;
+            this.searchBox.Items.AddRange(new object[] {
+            "Name",
+            "GUID",
+            "IP"});
+            this.searchBox.Location = new System.Drawing.Point(243, 302);
+            this.searchBox.Name = "searchBox";
+            this.searchBox.Size = new System.Drawing.Size(89, 21);
+            this.searchBox.TabIndex = 64;
+            // 
+            // searchTextBox
+            // 
+            this.searchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchTextBox.Location = new System.Drawing.Point(338, 303);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(751, 20);
+            this.searchTextBox.TabIndex = 65;
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            // 
+            // playersLabel
+            // 
+            this.playersLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playersLabel.AutoSize = true;
+            this.playersLabel.Location = new System.Drawing.Point(1095, 306);
+            this.playersLabel.Name = "playersLabel";
+            this.playersLabel.Size = new System.Drawing.Size(44, 13);
+            this.playersLabel.TabIndex = 67;
+            this.playersLabel.Text = "Players:";
+            // 
+            // playerCount
+            // 
+            this.playerCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playerCount.AutoSize = true;
+            this.playerCount.Location = new System.Drawing.Point(1135, 306);
+            this.playerCount.Name = "playerCount";
+            this.playerCount.Size = new System.Drawing.Size(13, 13);
+            this.playerCount.TabIndex = 68;
+            this.playerCount.Text = "0";
+            // 
+            // adminLabel
+            // 
+            this.adminLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.adminLabel.AutoSize = true;
+            this.adminLabel.Location = new System.Drawing.Point(1156, 306);
+            this.adminLabel.Name = "adminLabel";
+            this.adminLabel.Size = new System.Drawing.Size(44, 13);
+            this.adminLabel.TabIndex = 69;
+            this.adminLabel.Text = "Admins:";
+            // 
+            // adminCount
+            // 
+            this.adminCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.adminCount.AutoSize = true;
+            this.adminCount.Location = new System.Drawing.Point(1197, 306);
+            this.adminCount.Name = "adminCount";
+            this.adminCount.Size = new System.Drawing.Size(13, 13);
+            this.adminCount.TabIndex = 70;
+            this.adminCount.Text = "0";
+            // 
+            // banLabel
+            // 
+            this.banLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.banLabel.AutoSize = true;
+            this.banLabel.Location = new System.Drawing.Point(1216, 306);
+            this.banLabel.Name = "banLabel";
+            this.banLabel.Size = new System.Drawing.Size(34, 13);
+            this.banLabel.TabIndex = 71;
+            this.banLabel.Text = "Bans:";
+            // 
+            // banCount
+            // 
+            this.banCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.banCount.AutoSize = true;
+            this.banCount.Location = new System.Drawing.Point(1246, 306);
+            this.banCount.Name = "banCount";
+            this.banCount.Size = new System.Drawing.Size(13, 13);
+            this.banCount.TabIndex = 72;
+            this.banCount.Text = "0";
+            // 
             // ServerComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.banCount);
+            this.Controls.Add(this.banLabel);
+            this.Controls.Add(this.adminCount);
+            this.Controls.Add(this.adminLabel);
+            this.Controls.Add(this.playerCount);
+            this.Controls.Add(this.playersLabel);
+            this.Controls.Add(this.searchTextBox);
+            this.Controls.Add(this.searchBox);
+            this.Controls.Add(this.searchLabel);
+            this.Controls.Add(this.charCount);
+            this.Controls.Add(this.btnBanRefresh);
             this.Controls.Add(this.serverRefresh);
             this.Controls.Add(this.listServers);
             this.Controls.Add(this.cmdOption);
@@ -627,7 +949,7 @@
             this.Controls.Add(this.btnSaveHost);
             this.Controls.Add(this.btnLoadHost);
             this.Controls.Add(this.btnExecute);
-            this.Controls.Add(this.btnRefresh);
+            this.Controls.Add(this.btnPlayerRefresh);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txPasswd);
@@ -637,6 +959,7 @@
             this.Controls.Add(this.txHost);
             this.Controls.Add(this.chatTabs);
             this.Controls.Add(this.tabPlayer);
+            this.MinimumSize = new System.Drawing.Size(1100, 564);
             this.Name = "ServerComponent";
             this.Size = new System.Drawing.Size(1284, 564);
             this.Load += new System.EventHandler(this.ServerComponent_Load);
@@ -648,9 +971,11 @@
             this.tabPlayer.ResumeLayout(false);
             this.tabPlayers.ResumeLayout(false);
             this.tabBans.ResumeLayout(false);
+            this.tabAdmins.ResumeLayout(false);
             this.playerMenu.ResumeLayout(false);
             this.executeMenu.ResumeLayout(false);
             this.deleteMenu.ResumeLayout(false);
+            this.bannedMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -666,7 +991,7 @@
         private System.Windows.Forms.Button btnSaveHost;
         private System.Windows.Forms.Button btnLoadHost;
         private System.Windows.Forms.Button btnExecute;
-        private System.Windows.Forms.Button btnRefresh;
+        private System.Windows.Forms.Button btnPlayerRefresh;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txPasswd;
@@ -679,19 +1004,15 @@
         private System.Windows.Forms.RichTextBox txAll;
         private System.Windows.Forms.TabPage tabChat;
         private System.Windows.Forms.RichTextBox txChat;
-        private System.Windows.Forms.TabPage tabConsole;
-        private System.Windows.Forms.RichTextBox txConsole;
         private System.Windows.Forms.TabControl tabPlayer;
         private System.Windows.Forms.TabPage tabPlayers;
         private System.Windows.Forms.ListView listPlayers;
-        private System.Windows.Forms.ColumnHeader columnNumber;
+        private System.Windows.Forms.ColumnHeader columnbanNumber;
         private System.Windows.Forms.ColumnHeader columnName;
         private System.Windows.Forms.ColumnHeader columnStatus;
         private System.Windows.Forms.ColumnHeader columnGUID;
         private System.Windows.Forms.ColumnHeader columnIP;
         private System.Windows.Forms.ColumnHeader columnPing;
-        private System.Windows.Forms.TabPage tabBans;
-        private System.Windows.Forms.ListView listBans;
         private System.Windows.Forms.ContextMenuStrip playerMenu;
         private System.Windows.Forms.ToolStripMenuItem miCopy;
         private System.Windows.Forms.ToolStripMenuItem msiCopyGUID;
@@ -716,5 +1037,36 @@
         private System.Windows.Forms.ToolStripMenuItem dmDelete;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem miQuickBan;
+        private System.Windows.Forms.TabPage tabBans;
+        private System.Windows.Forms.ListView listBans;
+        private System.Windows.Forms.ColumnHeader columnNumber;
+        private System.Windows.Forms.ColumnHeader columnGUIDIP;
+        private System.Windows.Forms.ColumnHeader columnMinutesLeft;
+        private System.Windows.Forms.ColumnHeader columnReason;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem exAddMultipleBans;
+        private System.Windows.Forms.Button btnBanRefresh;
+        private System.Windows.Forms.ContextMenuStrip bannedMenu;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem copyGUIDIPToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem unbanToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem removeAllExpiredBansToolStripMenuItem;
+        private System.Windows.Forms.Label charCount;
+        private System.Windows.Forms.Label searchLabel;
+        private System.Windows.Forms.ComboBox searchBox;
+        private System.Windows.Forms.TextBox searchTextBox;
+        private System.Windows.Forms.TabPage tabConsole;
+        private System.Windows.Forms.RichTextBox txConsole;
+        private System.Windows.Forms.Label playersLabel;
+        private System.Windows.Forms.Label playerCount;
+        private System.Windows.Forms.TabPage tabAdmins;
+        private System.Windows.Forms.ListView listAdmins;
+        private System.Windows.Forms.ColumnHeader adminNumber;
+        private System.Windows.Forms.ColumnHeader adminIP;
+        private System.Windows.Forms.Label adminLabel;
+        private System.Windows.Forms.Label adminCount;
+        private System.Windows.Forms.Label banLabel;
+        private System.Windows.Forms.Label banCount;
     }
 }
