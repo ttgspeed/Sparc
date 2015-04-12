@@ -47,6 +47,7 @@ namespace Sparc
             stShowAdminKick.Checked = Properties.Settings.Default.showKickAdmin;
             stShowAdminBan.Checked = Properties.Settings.Default.showBanAdmin;
             stShowBanLength.Checked = Properties.Settings.Default.showBanLength;
+            sparcVersion.Text = "v0.0.1";
         }
     }
 }

@@ -47,6 +47,8 @@
             this.stShowAdminBan = new System.Windows.Forms.CheckBox();
             this.stShowAdminKick = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.sparcVersion = new System.Windows.Forms.Label();
+            this.sparcTitle = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stqbTime)).BeginInit();
@@ -187,7 +189,7 @@
             // 
             this.btnSaveSettings.Location = new System.Drawing.Point(12, 221);
             this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(322, 23);
+            this.btnSaveSettings.Size = new System.Drawing.Size(276, 23);
             this.btnSaveSettings.TabIndex = 3;
             this.btnSaveSettings.Text = "Save";
             this.btnSaveSettings.UseVisualStyleBackColor = true;
@@ -247,11 +249,31 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Chat Settings";
             // 
+            // sparcVersion
+            // 
+            this.sparcVersion.AutoSize = true;
+            this.sparcVersion.Location = new System.Drawing.Point(294, 231);
+            this.sparcVersion.Name = "sparcVersion";
+            this.sparcVersion.Size = new System.Drawing.Size(37, 13);
+            this.sparcVersion.TabIndex = 6;
+            this.sparcVersion.Text = "v0.0.0";
+            // 
+            // sparcTitle
+            // 
+            this.sparcTitle.AutoSize = true;
+            this.sparcTitle.Location = new System.Drawing.Point(293, 218);
+            this.sparcTitle.Name = "sparcTitle";
+            this.sparcTitle.Size = new System.Drawing.Size(35, 13);
+            this.sparcTitle.TabIndex = 7;
+            this.sparcTitle.Text = "Sparc";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(346, 249);
+            this.Controls.Add(this.sparcTitle);
+            this.Controls.Add(this.sparcVersion);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.btnSaveSettings);
@@ -275,6 +297,7 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -299,5 +322,7 @@
         private System.Windows.Forms.CheckBox stShowAdminKick;
         private System.Windows.Forms.CheckBox stAutoRefresh;
         private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label sparcVersion;
+        private System.Windows.Forms.Label sparcTitle;
     }
 }

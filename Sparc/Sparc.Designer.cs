@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sparc));
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabServers = new System.Windows.Forms.TabControl();
             this.tabAddServer = new System.Windows.Forms.TabPage();
@@ -40,6 +41,7 @@
             this.panel1.Controls.Add(this.tabServers);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.MinimumSize = new System.Drawing.Size(1100, 564);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1292, 590);
             this.panel1.TabIndex = 3;
@@ -47,12 +49,15 @@
             // tabServers
             // 
             this.tabServers.Controls.Add(this.tabAddServer);
+            this.tabServers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabServers.Location = new System.Drawing.Point(0, 0);
+            this.tabServers.MinimumSize = new System.Drawing.Size(1100, 590);
             this.tabServers.Name = "tabServers";
             this.tabServers.SelectedIndex = 0;
             this.tabServers.Size = new System.Drawing.Size(1292, 590);
             this.tabServers.TabIndex = 21;
             this.tabServers.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabServers_Selected);
+            this.tabServers.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tabServers_MouseClick);
             // 
             // tabAddServer
             // 
@@ -70,8 +75,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1292, 590);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximizeBox = false;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(1120, 628);
             this.Name = "Sparc";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Sparc";
