@@ -37,6 +37,7 @@ namespace Sparc
 
         private string dir;
         private string timestamp;
+        private string host;
 
         public ServerComponent()
         {
@@ -112,6 +113,7 @@ namespace Sparc
             isConnected = true;
             btnConnect.Text = "Disconnect";
             this.Parent.Text = txHost.Text;
+            host = txHost.Text;
             btnExecute.Enabled = true;
             btnPlayerRefresh.Enabled = true;
             btnBanRefresh.Enabled = true;
@@ -323,9 +325,9 @@ namespace Sparc
 
             if (Properties.Settings.Default.saveLogs)
             {
-                string log = Path.Combine(dir, "log_" + timestamp + ".txt");
-                string chatlog = Path.Combine(dir, "chatlog_" + timestamp + ".txt");
-                string consolelog = Path.Combine(dir, "consolelog_" + timestamp + ".txt");
+                string log = Path.Combine(dir, "log_" + host + "_" + timestamp + ".txt");
+                string chatlog = Path.Combine(dir, "chatlog_" + host + "_" + timestamp + ".txt");
+                string consolelog = Path.Combine(dir, "consolelog_" + host + "_" + timestamp + ".txt");
 
                 txAll.SaveFile(log, RichTextBoxStreamType.PlainText);
                 txChat.SaveFile(chatlog, RichTextBoxStreamType.PlainText);
