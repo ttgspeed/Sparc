@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.stLoadBanConnect = new System.Windows.Forms.CheckBox();
             this.stAutoRefresh = new System.Windows.Forms.CheckBox();
             this.stSaveLogs = new System.Windows.Forms.CheckBox();
             this.stName = new System.Windows.Forms.TextBox();
@@ -49,25 +50,42 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.sparcVersion = new System.Windows.Forms.Label();
             this.sparcTitle = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.stqbRefreshInterval = new System.Windows.Forms.NumericUpDown();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.stRefreshPlayerChange = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stqbTime)).BeginInit();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stqbRefreshInterval)).BeginInit();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.stLoadBanConnect);
             this.groupBox1.Controls.Add(this.stAutoRefresh);
             this.groupBox1.Controls.Add(this.stSaveLogs);
             this.groupBox1.Controls.Add(this.stName);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(158, 110);
+            this.groupBox1.Size = new System.Drawing.Size(158, 127);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General";
+            // 
+            // stLoadBanConnect
+            // 
+            this.stLoadBanConnect.AutoSize = true;
+            this.stLoadBanConnect.Location = new System.Drawing.Point(6, 104);
+            this.stLoadBanConnect.Name = "stLoadBanConnect";
+            this.stLoadBanConnect.Size = new System.Drawing.Size(133, 17);
+            this.stLoadBanConnect.TabIndex = 7;
+            this.stLoadBanConnect.Text = "Load bans on connect";
+            this.stLoadBanConnect.UseVisualStyleBackColor = true;
             // 
             // stAutoRefresh
             // 
@@ -143,7 +161,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Location = new System.Drawing.Point(176, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(158, 110);
+            this.groupBox2.Size = new System.Drawing.Size(158, 101);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Quick Ban";
@@ -162,7 +180,7 @@
             // 
             // stqbReason
             // 
-            this.stqbReason.Location = new System.Drawing.Point(6, 80);
+            this.stqbReason.Location = new System.Drawing.Point(6, 69);
             this.stqbReason.Name = "stqbReason";
             this.stqbReason.Size = new System.Drawing.Size(146, 20);
             this.stqbReason.TabIndex = 3;
@@ -170,7 +188,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 64);
+            this.label3.Location = new System.Drawing.Point(6, 53);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(61, 13);
             this.label3.TabIndex = 2;
@@ -187,9 +205,9 @@
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(12, 221);
+            this.btnSaveSettings.Location = new System.Drawing.Point(210, 298);
             this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(276, 23);
+            this.btnSaveSettings.Size = new System.Drawing.Size(78, 23);
             this.btnSaveSettings.TabIndex = 3;
             this.btnSaveSettings.Text = "Save";
             this.btnSaveSettings.UseVisualStyleBackColor = true;
@@ -200,9 +218,9 @@
             this.groupBox3.Controls.Add(this.stShowBanLength);
             this.groupBox3.Controls.Add(this.stShowAdminBan);
             this.groupBox3.Controls.Add(this.stShowAdminKick);
-            this.groupBox3.Location = new System.Drawing.Point(176, 128);
+            this.groupBox3.Location = new System.Drawing.Point(176, 119);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(158, 87);
+            this.groupBox3.Size = new System.Drawing.Size(158, 113);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Kick/Ban Messages";
@@ -242,7 +260,7 @@
             this.groupBox4.Controls.Add(this.sthlAdmin);
             this.groupBox4.Controls.Add(this.sthlName);
             this.groupBox4.Controls.Add(this.stflashOnCall);
-            this.groupBox4.Location = new System.Drawing.Point(12, 128);
+            this.groupBox4.Location = new System.Drawing.Point(12, 145);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(158, 87);
             this.groupBox4.TabIndex = 5;
@@ -252,7 +270,7 @@
             // sparcVersion
             // 
             this.sparcVersion.AutoSize = true;
-            this.sparcVersion.Location = new System.Drawing.Point(294, 231);
+            this.sparcVersion.Location = new System.Drawing.Point(294, 309);
             this.sparcVersion.Name = "sparcVersion";
             this.sparcVersion.Size = new System.Drawing.Size(37, 13);
             this.sparcVersion.TabIndex = 6;
@@ -261,17 +279,61 @@
             // sparcTitle
             // 
             this.sparcTitle.AutoSize = true;
-            this.sparcTitle.Location = new System.Drawing.Point(293, 218);
+            this.sparcTitle.Location = new System.Drawing.Point(293, 296);
             this.sparcTitle.Name = "sparcTitle";
             this.sparcTitle.Size = new System.Drawing.Size(35, 13);
             this.sparcTitle.TabIndex = 7;
             this.sparcTitle.Text = "Sparc";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 19);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(150, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "Auto refresh interval (seconds)";
+            // 
+            // stqbRefreshInterval
+            // 
+            this.stqbRefreshInterval.Location = new System.Drawing.Point(7, 35);
+            this.stqbRefreshInterval.Name = "stqbRefreshInterval";
+            this.stqbRefreshInterval.Size = new System.Drawing.Size(146, 20);
+            this.stqbRefreshInterval.TabIndex = 6;
+            this.stqbRefreshInterval.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.stRefreshPlayerChange);
+            this.groupBox5.Controls.Add(this.stqbRefreshInterval);
+            this.groupBox5.Controls.Add(this.label4);
+            this.groupBox5.Location = new System.Drawing.Point(12, 238);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(192, 86);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Refreshes";
+            // 
+            // stRefreshPlayerChange
+            // 
+            this.stRefreshPlayerChange.AutoSize = true;
+            this.stRefreshPlayerChange.Location = new System.Drawing.Point(6, 60);
+            this.stRefreshPlayerChange.Name = "stRefreshPlayerChange";
+            this.stRefreshPlayerChange.Size = new System.Drawing.Size(179, 17);
+            this.stRefreshPlayerChange.TabIndex = 8;
+            this.stRefreshPlayerChange.Text = "Auto refresh on player join/leave";
+            this.stRefreshPlayerChange.UseVisualStyleBackColor = true;
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 249);
+            this.ClientSize = new System.Drawing.Size(346, 333);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.sparcTitle);
             this.Controls.Add(this.sparcVersion);
             this.Controls.Add(this.groupBox4);
@@ -296,6 +358,9 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stqbRefreshInterval)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,5 +389,10 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label sparcVersion;
         private System.Windows.Forms.Label sparcTitle;
+        private System.Windows.Forms.CheckBox stLoadBanConnect;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.NumericUpDown stqbRefreshInterval;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckBox stRefreshPlayerChange;
     }
 }

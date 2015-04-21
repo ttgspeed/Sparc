@@ -154,5 +154,41 @@ namespace Sparc.Properties {
                 this["showBanLength"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool loadBanConnect {
+            get {
+                return ((bool)(this["loadBanConnect"]));
+            }
+            set {
+                this["loadBanConnect"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int qbRefreshInterval {
+            get {
+                return ((int)(this["qbRefreshInterval"]));
+            }
+            set {
+                this["qbRefreshInterval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool RefreshPlayerChange {
+            get {
+                return ((bool)(this["RefreshPlayerChange"]));
+            }
+            set {
+                this["RefreshPlayerChange"] = value;
+            }
+        }
     }
 }

@@ -64,6 +64,7 @@
     <Compile Include="BannedPlayer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Flash.cs" />
+    <Compile Include="GlobalVariables.cs" />
     <Compile Include="Multiple_Bans.cs">
       <SubType>Form</SubType>
     </Compile>

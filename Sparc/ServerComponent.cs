@@ -12,6 +12,7 @@ using System.Net;
 using System.Xml;
 using Extensions;
 using System.Threading.Tasks;
+using GlobalVariables;
 
 namespace Sparc
 {
@@ -30,6 +31,9 @@ namespace Sparc
         private Sort plSorter;
         private Sort slSorter;
 
+        private Timer refreshTimer;
+        private Timer cooldownTimer;
+
         public ServerComponent()
         {
             InitializeComponent();
@@ -44,6 +48,12 @@ namespace Sparc
             this.listPlayers.ListViewItemSorter = plSorter;
             this.listServers.ListViewItemSorter = slSorter;
             searchBox.SelectedIndex = 0;
+            cooldownTimer = new Timer();
+            cooldownTimer.Tick += new EventHandler(cooldownTimer_Tick);
+            cooldownTimer.Enabled = false;
+            txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
+            txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
+            txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
 
             loadServerList();
         }
@@ -93,11 +103,36 @@ namespace Sparc
             btnBanRefresh.Enabled = true;
             txSay.Enabled = true;
 
-            getPlayerList();
+            getPlayerandAdminList();
 
             await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
+            if (Properties.Settings.Default.RefreshPlayerChange)
+            {
+                cooldownTimer.Interval = 5000; // 5 seconds should be enough for the first interval, don't want two refreshes going on at connect!
+                cooldownTimer.Start();
+            }
+            if (Properties.Settings.Default.loadBanConnect)
+            {
+                btnBanRefresh.PerformClick();
+            }
+
+            if (Properties.Settings.Default.autoRefresh)
+            {
+                refreshTimer = new Timer();
+                refreshTimer.Tick += new EventHandler(refreshTimer_Tick);
+                refreshTimer.Interval = Properties.Settings.Default.qbRefreshInterval * 1000;
+                refreshTimer.Start();
+
+                string text = "Auto refresh interval set to " + Properties.Settings.Default.qbRefreshInterval + " seconds.";
+                txAll.SelectionColor = Color.Black;
+                txAll.SelectionFont = new Font("Lucida Console", 8);
+                txConsole.SelectionColor = Color.Black;
+                txConsole.SelectionFont = new Font("Lucida Console", 8);
+                txAll.AppendText("\n" + text);
+                txConsole.AppendText("\n" + text);
+            }
         }
 
         private async void handleDisconnect()
@@ -115,7 +150,20 @@ namespace Sparc
             await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
+            banCount.Text = listBans.Items.Count.ToString();
+
+            if (Properties.Settings.Default.autoRefresh)
+            {
+                refreshTimer.Stop();
+            }
         }
+
+        private void refreshTimer_Tick(object sender, EventArgs e)
+        {
+            btnBanRefresh.PerformClick();
+            btnPlayerRefresh.PerformClick();
+        }
+
         #endregion
 
         /*
@@ -126,9 +174,9 @@ namespace Sparc
         private void BattlEyeConnected(BattlEyeConnectEventArgs args)
         {
             bool connected = false;
-            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection successful!", Color.Black); connected = true; }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { appendChat("Invalid login details!", Color.Black); }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection failed!", Color.Black); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection successful!"); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection successful!"); connected = true; }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); }); }
 
             if (connected)
                 this.Invoke((MethodInvoker)delegate() { handleConnect(); });
@@ -138,11 +186,11 @@ namespace Sparc
 
         private void BattlEyeDisconnected(BattlEyeDisconnectEventArgs args)
         {
-            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { appendChat("Connection lost (timeout). Attempting to reconnect.", Color.Black); }); }); };
-            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { appendChat("Connection closed (socket error)", Color.Black); }); }
+            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); }); }); };
+            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); }); }
             //if (args.DisconnectionType == BattlEyeDisconnectionType.Manual) { /* Disconnected by implementing application, that would be you */ }
 
-            this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText("\n" + args.Message + "\n"); });
+            this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Disconnected."); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Disconnected."); });
             this.Invoke((MethodInvoker)delegate() { handleDisconnect(); });
         }
 
@@ -189,7 +237,12 @@ namespace Sparc
 
             loginCredentials.Password = txPasswd.Text;
 
-            txAll.AppendText(txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")\n");
+            txAll.SelectionColor = Color.Black;
+            txAll.SelectionFont = new Font("Lucida Console", 8);
+            txConsole.SelectionColor = Color.Black;
+            txConsole.SelectionFont = new Font("Lucida Console", 8);
+            txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
+            txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
 
             return loginCredentials;
         }
@@ -204,31 +257,35 @@ namespace Sparc
         {
             if (text.Contains("(Direct)"))
             {
-                if (text.containsIgnoreCase("admin") || text.containsIgnoreCase(Properties.Settings.Default.Username))
+                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username)) // Logic:(i f admin is called and admin hightlighting is selected) OR (if username highlighting is selected)
                     appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
                 else
                     appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
             }
             else if (text.Contains("(Unknown)"))
             {
-                if (text.containsIgnoreCase("admin") || text.containsIgnoreCase(Properties.Settings.Default.Username))
+                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
                     appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.MediumPurple);
                 else
                     appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.MediumPurple);
             }
             else if (text.Contains("(Group)"))
             {
-                if (text.containsIgnoreCase("admin") || text.containsIgnoreCase(Properties.Settings.Default.Username))
+                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
                     appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
                 else
                     appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
             }
             else if (text.Contains("(Vehicle)"))
             {
-                if (text.containsIgnoreCase("admin") || text.containsIgnoreCase(Properties.Settings.Default.Username))
+                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
                     appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
                 else
                     appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
+            }
+            else if (text.Contains("(Global)"))
+            {
+                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.Red);
             }
             else
             {
@@ -236,9 +293,24 @@ namespace Sparc
                 txAll.SelectionFont = new Font("Lucida Console", 8);
                 txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
                 txConsole.SelectionColor = Color.Black;
-                txConsole.SelectionFont = new Font("Lucida Console", 8);
                 txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+                txConsole.SelectionFont = new Font("Lucida Console", 8);
+
+                if (Properties.Settings.Default.RefreshPlayerChange && (text.Contains("Player") && (text.Contains("disconnected") || text.Contains("connected"))))
+                {
+                    if (!cooldownTimer.Enabled)
+                    {
+                        cooldownTimer.Interval = 5000; // this should honestly be enough
+                        cooldownTimer.Start();
+                        btnPlayerRefresh.PerformClick();
+                    }
+                }
             }
+        }
+
+        private void cooldownTimer_Tick(object sender, EventArgs e)
+        {
+            cooldownTimer.Stop();
         }
 
         private void chatAlert(string text)
@@ -471,7 +543,7 @@ namespace Sparc
             return p;
         }
 
-        private void getPlayerList()
+        private void getPlayerandAdminList()
         {
             clearPlayerList();
             b.SendCommand("players");
@@ -481,6 +553,7 @@ namespace Sparc
 
         private void getBanList()
         {
+            clearBanList();
             b.SendCommand("bans");
         }
 
@@ -549,7 +622,15 @@ namespace Sparc
 
         private async void btnPlayerRefresh_Click(object sender, EventArgs e)
         {
-            getPlayerList();
+            getPlayerandAdminList();
+
+            string text = "Refreshing players...";
+            txAll.SelectionColor = Color.Black;
+            txAll.SelectionFont = new Font("Lucida Console", 8);
+            txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.SelectionColor = Color.Black;
+            txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.SelectionFont = new Font("Lucida Console", 8);
 
             await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
@@ -559,6 +640,14 @@ namespace Sparc
         private async void btnBanRefresh_Click(object sender, EventArgs e)
         {
             getBanList();
+
+            string text = "Refreshing bans...";
+            txAll.SelectionColor = Color.Black;
+            txAll.SelectionFont = new Font("Lucida Console", 8);
+            txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.SelectionColor = Color.Black;
+            txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.SelectionFont = new Font("Lucida Console", 8);
 
             await Task.Delay(1000);
             banCount.Text = listBans.Items.Count.ToString();
@@ -833,10 +922,11 @@ namespace Sparc
         {
             if (e.KeyCode == Keys.Enter)
             {
+                e.SuppressKeyPress = true;
                 if (isConnected && txSay.Text != "")
                 {
                     if (cmdOption.SelectedIndex == 0)
-                        b.SendCommand("say -1 (" + Properties.Settings.Default.Username + "): " + txSay.Text);
+                        b.SendCommand("say -1 [" + Properties.Settings.Default.Username + "]: " + txSay.Text);
                     else
                         b.SendCommand(txSay.Text);
 
@@ -986,7 +1076,7 @@ namespace Sparc
         private void btnSettings_Click(object sender, EventArgs e)
         {
             Settings st = new Settings();
-            st.Show();
+            st.ShowDialog();
         }
 
         private void listServers_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
@@ -1120,7 +1210,7 @@ namespace Sparc
             }
         }
 
-        private void searchTextBox_TextChanged(object sender, EventArgs e)
+        /*private void searchTextBox_TextChanged(object sender, EventArgs e) // UNFINISHED FILTER FOR LISTS
         {
             if (searchTextBox.Text.Length > 1)
             {
@@ -1198,6 +1288,6 @@ namespace Sparc
                 updatePlayerList();
                 updateBanList();
             }
-        }
+        }*/
     }
 }

@@ -352,6 +352,7 @@
             this.txChat.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txChat.Font = new System.Drawing.Font("Lucida Console", 8.25F);
             this.txChat.Location = new System.Drawing.Point(3, 3);
             this.txChat.Name = "txChat";
             this.txChat.ReadOnly = true;
@@ -377,6 +378,7 @@
             this.txConsole.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txConsole.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txConsole.Location = new System.Drawing.Point(3, 3);
             this.txConsole.Name = "txConsole";
             this.txConsole.ReadOnly = true;
