@@ -1237,9 +1237,9 @@ namespace Sparc
             }
         }
 
-        private void searchTextBox_TextChanged(object sender, EventArgs e) // UNFINISHED FILTER FOR LISTS
+        private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
-            /*if (searchTextBox.Text.Length > 1)
+            if (searchTextBox.Text.Length > 1)
             {
                 switch (searchBox.SelectedItem.ToString().Trim())
                 {
@@ -1314,7 +1314,7 @@ namespace Sparc
             {
                 updatePlayerList();
                 updateBanList();
-            } */
+            }
         }
     }
 }
