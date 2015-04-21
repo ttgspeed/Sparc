@@ -13,6 +13,7 @@ using System.Xml;
 using Extensions;
 using System.Threading.Tasks;
 using GlobalVariables;
+using System.IO;
 
 namespace Sparc
 {
@@ -34,6 +35,9 @@ namespace Sparc
         private Timer refreshTimer;
         private Timer cooldownTimer;
 
+        private string dir;
+        private string timestamp;
+
         public ServerComponent()
         {
             InitializeComponent();
@@ -42,6 +46,16 @@ namespace Sparc
         private void ServerComponent_Load(object sender, EventArgs e)
         {
             cmdOption.SelectedIndex = 0;
+
+            string currentDir = Environment.CurrentDirectory;
+            dir = currentDir + @"\logs";
+            timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"); // I.E. 2014-01-05_06-49-23
+
+            if (Properties.Settings.Default.saveLogs)
+            {
+                if (!Directory.Exists(dir))  // if it doesn't exist, create
+                    Directory.CreateDirectory(dir);
+            }
 
             plSorter = new Sort();
             slSorter = new Sort();
@@ -53,7 +67,7 @@ namespace Sparc
             cooldownTimer.Enabled = false;
             txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
             txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
-            txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
+            txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
 
             loadServerList();
         }
@@ -305,6 +319,17 @@ namespace Sparc
                         btnPlayerRefresh.PerformClick();
                     }
                 }
+            }
+
+            if (Properties.Settings.Default.saveLogs)
+            {
+                string log = Path.Combine(dir, "log_" + timestamp + ".txt");
+                string chatlog = Path.Combine(dir, "chatlog_" + timestamp + ".txt");
+                string consolelog = Path.Combine(dir, "consolelog_" + timestamp + ".txt");
+
+                txAll.SaveFile(log, RichTextBoxStreamType.PlainText);
+                txChat.SaveFile(chatlog, RichTextBoxStreamType.PlainText);
+                txConsole.SaveFile(consolelog, RichTextBoxStreamType.PlainText);
             }
         }
 
@@ -1210,9 +1235,9 @@ namespace Sparc
             }
         }
 
-        /*private void searchTextBox_TextChanged(object sender, EventArgs e) // UNFINISHED FILTER FOR LISTS
+        private void searchTextBox_TextChanged(object sender, EventArgs e) // UNFINISHED FILTER FOR LISTS
         {
-            if (searchTextBox.Text.Length > 1)
+            /*if (searchTextBox.Text.Length > 1)
             {
                 switch (searchBox.SelectedItem.ToString().Trim())
                 {
@@ -1287,7 +1312,7 @@ namespace Sparc
             {
                 updatePlayerList();
                 updateBanList();
-            }
-        }*/
+            } */
+        }
     }
 }
