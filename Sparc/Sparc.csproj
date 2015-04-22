@@ -176,7 +176,6 @@
     <Content Include="BattleNET.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Electricity-50.ico" />
     <Content Include="donate_button.png" />
     <Content Include="Sparc.ico" />
     <Content Include="Sparc.png" />
