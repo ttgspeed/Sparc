@@ -71,5 +71,11 @@ namespace Sparc
             ToolTip1.SetToolTip(this.stLoadBanConnect, "Should Sparc automatically load bans on connect? (Recommended to be turned off for servers with a big banlist!)");
             sparcVersion.Text =  Globals.sparcVersion;
         }
+
+        private void btnAbout_Click(object sender, EventArgs e)
+        {
+            About abt = new About();
+            abt.Show();
+        }
     }
 }

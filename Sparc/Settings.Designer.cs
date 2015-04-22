@@ -54,6 +54,7 @@
             this.stqbRefreshInterval = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.stRefreshPlayerChange = new System.Windows.Forms.CheckBox();
+            this.btnAbout = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stqbTime)).BeginInit();
@@ -205,9 +206,9 @@
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(210, 298);
+            this.btnSaveSettings.Location = new System.Drawing.Point(12, 238);
             this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(78, 23);
+            this.btnSaveSettings.Size = new System.Drawing.Size(158, 23);
             this.btnSaveSettings.TabIndex = 3;
             this.btnSaveSettings.Text = "Save";
             this.btnSaveSettings.UseVisualStyleBackColor = true;
@@ -220,7 +221,7 @@
             this.groupBox3.Controls.Add(this.stShowAdminKick);
             this.groupBox3.Location = new System.Drawing.Point(176, 119);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(158, 113);
+            this.groupBox3.Size = new System.Drawing.Size(158, 85);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Kick/Ban Messages";
@@ -270,7 +271,7 @@
             // sparcVersion
             // 
             this.sparcVersion.AutoSize = true;
-            this.sparcVersion.Location = new System.Drawing.Point(294, 309);
+            this.sparcVersion.Location = new System.Drawing.Point(128, 277);
             this.sparcVersion.Name = "sparcVersion";
             this.sparcVersion.Size = new System.Drawing.Size(37, 13);
             this.sparcVersion.TabIndex = 6;
@@ -279,7 +280,7 @@
             // sparcTitle
             // 
             this.sparcTitle.AutoSize = true;
-            this.sparcTitle.Location = new System.Drawing.Point(293, 296);
+            this.sparcTitle.Location = new System.Drawing.Point(127, 264);
             this.sparcTitle.Name = "sparcTitle";
             this.sparcTitle.Size = new System.Drawing.Size(35, 13);
             this.sparcTitle.TabIndex = 7;
@@ -311,9 +312,9 @@
             this.groupBox5.Controls.Add(this.stRefreshPlayerChange);
             this.groupBox5.Controls.Add(this.stqbRefreshInterval);
             this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Location = new System.Drawing.Point(12, 238);
+            this.groupBox5.Location = new System.Drawing.Point(176, 210);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(192, 86);
+            this.groupBox5.Size = new System.Drawing.Size(158, 80);
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Refreshes";
@@ -323,16 +324,27 @@
             this.stRefreshPlayerChange.AutoSize = true;
             this.stRefreshPlayerChange.Location = new System.Drawing.Point(6, 60);
             this.stRefreshPlayerChange.Name = "stRefreshPlayerChange";
-            this.stRefreshPlayerChange.Size = new System.Drawing.Size(179, 17);
+            this.stRefreshPlayerChange.Size = new System.Drawing.Size(151, 17);
             this.stRefreshPlayerChange.TabIndex = 8;
-            this.stRefreshPlayerChange.Text = "Auto refresh on player join/leave";
+            this.stRefreshPlayerChange.Text = "Refresh on player connect";
             this.stRefreshPlayerChange.UseVisualStyleBackColor = true;
+            // 
+            // btnAbout
+            // 
+            this.btnAbout.Location = new System.Drawing.Point(12, 267);
+            this.btnAbout.Name = "btnAbout";
+            this.btnAbout.Size = new System.Drawing.Size(110, 23);
+            this.btnAbout.TabIndex = 8;
+            this.btnAbout.Text = "About";
+            this.btnAbout.UseVisualStyleBackColor = true;
+            this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 333);
+            this.ClientSize = new System.Drawing.Size(346, 298);
+            this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.sparcTitle);
             this.Controls.Add(this.sparcVersion);
@@ -394,5 +406,6 @@
         private System.Windows.Forms.NumericUpDown stqbRefreshInterval;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox stRefreshPlayerChange;
+        private System.Windows.Forms.Button btnAbout;
     }
 }

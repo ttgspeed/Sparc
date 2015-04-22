@@ -4,6 +4,7 @@ namespace GlobalVariables
 {
     public static class Globals
     {
-        public static String sparcVersion = "v0.0.1"; // Current Sparc version
+        //DJ thinks changing this to 1.0.0 is a good idea. Personally, I disagree... but yolo.
+        public static String sparcVersion = "v1.0.0"; // Current Sparc version
     }
 }

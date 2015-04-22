@@ -25,3 +25,5 @@ C:\Users\Justin\Documents\GitHub\Sparc\Sparc\obj\Debug\Sparc.ServerComponent.res
 C:\Users\Justin\Documents\GitHub\Sparc\Sparc\bin\Debug\BattleNET.dll
 C:\Users\Justin\Documents\GitHub\Sparc\Sparc\obj\Debug\Sparc.Ban.resources
 C:\Users\Justin\Documents\GitHub\Sparc\Sparc\obj\Debug\Sparc.Settings.resources
+C:\Users\Justin\Documents\GitHub\Sparc\Sparc\obj\Debug\Sparc.Multiple_Bans.resources
+C:\Users\Justin\Documents\GitHub\Sparc\Sparc\obj\Debug\Sparc.About.resources
