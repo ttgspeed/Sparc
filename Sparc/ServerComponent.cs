@@ -52,12 +52,6 @@ namespace Sparc
             dir = currentDir + @"\logs";
             timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"); // I.E. 2014-01-05_06-49-23
 
-            if (Properties.Settings.Default.saveLogs)
-            {
-                if (!Directory.Exists(dir))  // if it doesn't exist, create
-                    Directory.CreateDirectory(dir);
-            }
-
             plSorter = new Sort();
             slSorter = new Sort();
             this.listPlayers.ListViewItemSorter = plSorter;
@@ -66,8 +60,8 @@ namespace Sparc
             cooldownTimer = new Timer();
             cooldownTimer.Tick += new EventHandler(cooldownTimer_Tick);
             cooldownTimer.Enabled = false;
-            txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
-            txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!\n");
+            txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
+            txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
             txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
 
             loadServerList();
@@ -118,6 +112,12 @@ namespace Sparc
             btnPlayerRefresh.Enabled = true;
             btnBanRefresh.Enabled = true;
             txSay.Enabled = true;
+
+            if (Properties.Settings.Default.saveLogs)
+            {
+                if (!Directory.Exists(dir))  // if it doesn't exist, create
+                    Directory.CreateDirectory(dir);
+            }
 
             getPlayerandAdminList();
 
@@ -191,8 +191,8 @@ namespace Sparc
         {
             bool connected = false;
             if (args.ConnectionResult == BattlEyeConnectionResult.Success) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection successful!"); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection successful!"); connected = true; }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); }); }
-            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.InvalidLogin) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Invalid login details!"); }); }
+            if (args.ConnectionResult == BattlEyeConnectionResult.ConnectionFailed) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection failed!"); }); }
 
             if (connected)
                 this.Invoke((MethodInvoker)delegate() { handleConnect(); });
@@ -202,8 +202,8 @@ namespace Sparc
 
         private void BattlEyeDisconnected(BattlEyeDisconnectEventArgs args)
         {
-            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); }); }); };
-            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); this.txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); }); }
+            if (args.DisconnectionType == BattlEyeDisconnectionType.ConnectionLost) { this.Invoke((MethodInvoker)delegate() { this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection lost (timeout). Attempting to reconnect."); }); }); };
+            if (args.DisconnectionType == BattlEyeDisconnectionType.SocketException) { this.Invoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connection closed (socket error)"); }); }
             //if (args.DisconnectionType == BattlEyeDisconnectionType.Manual) { /* Disconnected by implementing application, that would be you */ }
 
             this.BeginInvoke((MethodInvoker)delegate() { this.txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Disconnected."); this.txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Disconnected."); });
@@ -257,8 +257,8 @@ namespace Sparc
             txAll.SelectionFont = new Font("Lucida Console", 8);
             txConsole.SelectionColor = Color.Black;
             txConsole.SelectionFont = new Font("Lucida Console", 8);
-            txAll.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
-            txConsole.AppendText(DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
+            txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
+            txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + "Connecting to " + txHost.Text + " (" + Dns.GetHostAddresses(txHost.Text)[0] + ")");
 
             return loginCredentials;
         }

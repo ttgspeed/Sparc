@@ -60,7 +60,7 @@ namespace Sparc
             stRefreshPlayerChange.Checked = Properties.Settings.Default.RefreshPlayerChange;
             ToolTip1.SetToolTip(this.stRefreshPlayerChange, "Do you want Sparc to automatically refresh every time a player joins or leaves?");
             stSaveLogs.Checked = Properties.Settings.Default.saveLogs;
-            ToolTip1.SetToolTip(this.stSaveLogs, "Should Sparc save its logs to a text file?");
+            ToolTip1.SetToolTip(this.stSaveLogs, "Should Sparc save its logs to a text file? NOTE: Requires you to re-connect to host!");
             stShowAdminKick.Checked = Properties.Settings.Default.showKickAdmin;
             ToolTip1.SetToolTip(this.stShowAdminKick, "Should Sparc add chosen admin name within the kick reason?");
             stShowAdminBan.Checked = Properties.Settings.Default.showBanAdmin;
@@ -75,7 +75,7 @@ namespace Sparc
         private void btnAbout_Click(object sender, EventArgs e)
         {
             About abt = new About();
-            abt.Show();
+            abt.ShowDialog();
         }
     }
 }
