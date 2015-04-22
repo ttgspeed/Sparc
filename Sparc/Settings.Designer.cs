@@ -170,6 +170,11 @@
             // stqbTime
             // 
             this.stqbTime.Location = new System.Drawing.Point(6, 32);
+            this.stqbTime.Maximum = new decimal(new int[] {
+            180,
+            0,
+            0,
+            0});
             this.stqbTime.Name = "stqbTime";
             this.stqbTime.Size = new System.Drawing.Size(146, 20);
             this.stqbTime.TabIndex = 4;
