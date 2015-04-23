@@ -303,6 +303,11 @@
             // stqbRefreshInterval
             // 
             this.stqbRefreshInterval.Location = new System.Drawing.Point(7, 35);
+            this.stqbRefreshInterval.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
             this.stqbRefreshInterval.Name = "stqbRefreshInterval";
             this.stqbRefreshInterval.Size = new System.Drawing.Size(146, 20);
             this.stqbRefreshInterval.TabIndex = 6;
