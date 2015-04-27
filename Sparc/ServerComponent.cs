@@ -39,6 +39,8 @@ namespace Sparc
         private string timestamp;
         private string host;
 
+        private ListViewItem lastSelected;
+
         public ServerComponent()
         {
             InitializeComponent();
@@ -56,10 +58,12 @@ namespace Sparc
             slSorter = new Sort();
             this.listPlayers.ListViewItemSorter = plSorter;
             this.listServers.ListViewItemSorter = slSorter;
+
             searchBox.SelectedIndex = 0;
             cooldownTimer = new Timer();
             cooldownTimer.Tick += new EventHandler(cooldownTimer_Tick);
             cooldownTimer.Enabled = false;
+
             txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
             txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
             txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
@@ -124,7 +128,7 @@ namespace Sparc
             await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
-            if (Properties.Settings.Default.RefreshPlayerChange)
+            if (Properties.Settings.Default.autoRefresh || autoRefresh.Checked)
             {
                 cooldownTimer.Interval = 5000; // 5 seconds should be enough for the first interval, don't want two refreshes going on at connect!
                 cooldownTimer.Start();
@@ -134,20 +138,9 @@ namespace Sparc
                 btnBanRefresh.PerformClick();
             }
 
-            if (Properties.Settings.Default.autoRefresh)
+            if (Properties.Settings.Default.autoRefresh || autoRefresh.Checked)
             {
-                refreshTimer = new Timer();
-                refreshTimer.Tick += new EventHandler(refreshTimer_Tick);
-                refreshTimer.Interval = Properties.Settings.Default.qbRefreshInterval * 1000;
-                refreshTimer.Start();
-
-                string text = "Auto refresh interval set to " + Properties.Settings.Default.qbRefreshInterval + " seconds.";
-                txAll.SelectionColor = Color.Black;
-                txAll.SelectionFont = new Font("Lucida Console", 8);
-                txConsole.SelectionColor = Color.Black;
-                txConsole.SelectionFont = new Font("Lucida Console", 8);
-                txAll.AppendText("\n" + text);
-                txConsole.AppendText("\n" + text);
+                enableRefreshManual();
             }
         }
 
@@ -429,7 +422,6 @@ namespace Sparc
                 if (p != null)
                     PlayerCache.AddLast(p);
             }
-
             updatePlayerList();
         }
 
@@ -723,6 +715,8 @@ namespace Sparc
             {
                 if (listPlayers.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
+                    //create an object that can still be accessed even after the item has been deselected (list refresh crash fix)
+                    lastSelected = listPlayers.SelectedItems[0];
                     playerMenu.Show(Cursor.Position);
                 }
             }
@@ -730,17 +724,17 @@ namespace Sparc
 
         private void msiCopyGUID_Click(object sender, System.EventArgs e)
         {
-            Clipboard.SetText(listPlayers.SelectedItems[0].SubItems[3].Text);
+            Clipboard.SetText(lastSelected.SubItems[3].Text);
         }
 
         private void msiCopyIP_Click(object sender, System.EventArgs e)
         {
-            Clipboard.SetText(listPlayers.SelectedItems[0].SubItems[4].Text);
+            Clipboard.SetText(lastSelected.SubItems[4].Text);
         }
 
         private void msiCopyName_Click(object sender, System.EventArgs e)
         {
-            Clipboard.SetText(listPlayers.SelectedItems[0].SubItems[1].Text);
+            Clipboard.SetText(lastSelected.SubItems[1].Text);
         }
 
         private void miKick_Click(object sender, System.EventArgs e)
@@ -751,16 +745,14 @@ namespace Sparc
 
             if (modal.ShowDialog(this) == DialogResult.OK)
             {
-                message = modal.mtxMessage.Text;
+                message = (modal.mtxMessage.Text == "") ? "Admin kick" : modal.mtxMessage.Text;
+
+                if (Properties.Settings.Default.showKickAdmin)
+                    message += " (" + Properties.Settings.Default.Username + ")";
+
+                b.SendCommand("kick " + lastSelected.SubItems[0].Text + " " + message);
             }
             modal.Dispose();
-
-            message = (message == "") ? "Admin kick" : message;
-
-            if (Properties.Settings.Default.showKickAdmin)
-                message += " (" + Properties.Settings.Default.Username + ")";
-
-            b.SendCommand("kick " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + message);
         }
 
         private void miMessage_Click(object sender, System.EventArgs e)
@@ -772,10 +764,10 @@ namespace Sparc
             if (modal.ShowDialog(this) == DialogResult.OK)
             {
                 message += modal.mtxMessage.Text;
+
+                b.SendCommand("say " + lastSelected.SubItems[0].Text + " " + message);
             }
             modal.Dispose();
-
-            b.SendCommand("say " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + message);
         }
 
         private void miBan_Click(object sender, System.EventArgs e)
@@ -821,7 +813,7 @@ namespace Sparc
                 if (Properties.Settings.Default.showBanAdmin)
                     message += " (" + Properties.Settings.Default.Username + ")";
 
-                b.SendCommand("ban " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + time + " " + message);
+                b.SendCommand("ban " + lastSelected.SubItems[0].Text + " " + time + " " + message);
             }
             modal.Dispose();
         }
@@ -840,7 +832,7 @@ namespace Sparc
                 if (Properties.Settings.Default.showBanAdmin)
                     message += " (" + Properties.Settings.Default.Username + ")";
 
-                b.SendCommand("ban " + listPlayers.SelectedItems[0].SubItems[0].Text + " " + time + " " + message);
+                b.SendCommand("ban " + lastSelected.SubItems[0].Text + " " + time + " " + message);
             }
         }
         #endregion
@@ -879,7 +871,6 @@ namespace Sparc
         {
             b.SendCommand("writeBans");
         }
-
         #endregion
 
         /*
@@ -893,27 +884,49 @@ namespace Sparc
 
         private void exScripts_Click(object sender, System.EventArgs e)
         {
-            b.SendCommand("loadScripts");
+            DialogResult dialogResult = MessageBox.Show("Are you sure?", "Reload Scripts", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                b.SendCommand("loadScripts");
+            }
         }
 
         private void exBans_Click(object sender, System.EventArgs e)
         {
-            b.SendCommand("loadBans");
+            DialogResult dialogResult = MessageBox.Show("Are you sure?", "Reload Bans", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                b.SendCommand("loadBans");
+            }
         }
 
         private void exEvents_Click(object sender, System.EventArgs e)
         {
-            b.SendCommand("loadEvents");
+            DialogResult dialogResult = MessageBox.Show("Are you sure?", "Reload Events", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                b.SendCommand("loadEvents");
+            }
         }
 
         private void exLock_Click(object sender, System.EventArgs e)
         {
-            b.SendCommand("#lock");
+            DialogResult dialogResult = MessageBox.Show("Are you sure?", "Lock Server", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                b.SendCommand("#lock");
+                Console.WriteLine("Locked");
+            }
         }
 
         private void exUnlock_Click(object sender, System.EventArgs e)
         {
-            b.SendCommand("#unlock");
+            DialogResult dialogResult = MessageBox.Show("Are you sure?", "Unlock Server", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (dialogResult == DialogResult.Yes)
+            {
+                b.SendCommand("#unlock");
+                Console.WriteLine("Unlocked");
+            }
         }
 
         private void exRestart_Click(object sender, System.EventArgs e)
@@ -932,6 +945,46 @@ namespace Sparc
             {
                 b.SendCommand("#shutdown");
             }
+        }
+
+        private void exAddMultipleBans_Click(object sender, EventArgs e)
+        {
+            string guidorip = "";
+            string time = "";
+            string message = "";
+
+            Multiple_Bans modal = new Multiple_Bans();
+
+            if (modal.ShowDialog(this) == DialogResult.OK)
+            {
+                string inputtedLines = modal.mtxBan.Text;
+                string[] lines = inputtedLines.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string line in lines)
+                {
+                    string[] data = System.Text.RegularExpressions.Regex.Replace(line, @"\s+", " ").Split(null, 3);
+
+                    if (data.Length >= 3)
+                    {
+                        /*
+                         * data[0] = ban GUIDORIP
+                         * data[1] = ban Time
+                         * data[2] = ban Reason
+                         */
+                        guidorip = data[0];
+
+                        if (data[1] == "-1") // if time -1 then change to 0, to stay uniform
+                            data[1] = "0";
+                        time = data[1];
+
+                        message = (data[2] == "") ? "Admin ban" : data[2];
+
+                        b.SendCommand("addBan " + guidorip + " " + time + " " + message);
+                    }
+                }
+            }
+            modal.Dispose();
+            btnBanRefresh.PerformClick();
         }
         #endregion
 
@@ -1100,6 +1153,10 @@ namespace Sparc
         }
         #endregion
 
+        /*
+         * Misc functions
+         */
+        #region SPARC_MISC
         private void btnSettings_Click(object sender, EventArgs e)
         {
             Settings st = new Settings();
@@ -1110,46 +1167,6 @@ namespace Sparc
         {
             e.Cancel = true;
             e.NewWidth = listServers.Columns[e.ColumnIndex].Width;
-        }
-
-        private void exAddMultipleBans_Click(object sender, EventArgs e)
-        {
-            string guidorip = "";
-            string time = "";
-            string message = "";
-
-            Multiple_Bans modal = new Multiple_Bans();
-
-            if (modal.ShowDialog(this) == DialogResult.OK)
-            {
-                string inputtedLines = modal.mtxBan.Text;
-                string[] lines = inputtedLines.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string line in lines)
-                {
-                    string[] data = System.Text.RegularExpressions.Regex.Replace(line, @"\s+", " ").Split(null, 3);
-
-                    if (data.Length >= 3)
-                    {
-                        /*
-                         * data[0] = ban GUIDORIP
-                         * data[1] = ban Time
-                         * data[2] = ban Reason
-                         */
-                        guidorip = data[0];
-
-                        if (data[1] == "-1") // if time -1 then change to 0, to stay uniform
-                            data[1] = "0";
-                        time = data[1];
-
-                        message = (data[2] == "") ? "Admin ban" : data[2];
-
-                        b.SendCommand("addBan " + guidorip + " " + time + " " + message);
-                    }
-                }
-            }
-            modal.Dispose();
-            btnBanRefresh.PerformClick();
         }
 
         private void listServers_DoubleClick(object sender, EventArgs e)
@@ -1210,33 +1227,6 @@ namespace Sparc
             charCount.Text = txSay.TextLength.ToString() + "/400";
         }
 
-        private void tabPlayer_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            switch (tabPlayer.SelectedIndex)
-            {
-                case 0:
-                {
-                    searchBox.Items.Clear();
-                    searchBox.Items.AddRange(new object[] {
-                    "Name",
-                    "GUID",
-                    "IP"});
-                    searchBox.SelectedIndex = 0;
-                    break;
-                }
-                
-                case 1:
-                {
-                    searchBox.Items.Clear();
-                    searchBox.Items.AddRange(new object[] {
-                    "GUID/IP",
-                    "Reason"});
-                    searchBox.SelectedIndex = 0;
-                    break;
-                }
-            }
-        }
-
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
             if (searchTextBox.Text.Length > 1)
@@ -1244,70 +1234,70 @@ namespace Sparc
                 switch (searchBox.SelectedItem.ToString().Trim())
                 {
                     case "Name": // pList
-                    {
-                        foreach (ListViewItem item in listPlayers.Items)
                         {
-                            //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
-                            //SelectedItems collection.
-                            if (!item.SubItems[1].Text.containsIgnoreCase(searchTextBox.Text))
+                            foreach (ListViewItem item in listPlayers.Items)
                             {
-                                listPlayers.Items.Remove(item);
+                                //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
+                                //SelectedItems collection.
+                                if (!item.SubItems[1].Text.containsIgnoreCase(searchTextBox.Text))
+                                {
+                                    listPlayers.Items.Remove(item);
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                     case "GUID": // pList
-                    {
-                        foreach (ListViewItem item in listPlayers.Items)
                         {
-                            //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
-                            //SelectedItems collection.
-                            if (!item.SubItems[3].Text.containsIgnoreCase(searchTextBox.Text))
+                            foreach (ListViewItem item in listPlayers.Items)
                             {
-                                listPlayers.Items.Remove(item);
+                                //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
+                                //SelectedItems collection.
+                                if (!item.SubItems[3].Text.containsIgnoreCase(searchTextBox.Text))
+                                {
+                                    listPlayers.Items.Remove(item);
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                     case "IP": // pList
-                    {
-                        foreach (ListViewItem item in listPlayers.Items)
                         {
-                            //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
-                            //SelectedItems collection.
-                            if (!item.SubItems[4].Text.containsIgnoreCase(searchTextBox.Text))
+                            foreach (ListViewItem item in listPlayers.Items)
                             {
-                                listPlayers.Items.Remove(item);
+                                //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
+                                //SelectedItems collection.
+                                if (!item.SubItems[4].Text.containsIgnoreCase(searchTextBox.Text))
+                                {
+                                    listPlayers.Items.Remove(item);
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                     case "GUID/IP": // bList
-                    {
-                        foreach (ListViewItem item in listBans.Items)
                         {
-                            //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
-                            //SelectedItems collection.
-                            if (!item.SubItems[1].Text.containsIgnoreCase(searchTextBox.Text))
+                            foreach (ListViewItem item in listBans.Items)
                             {
-                                listBans.Items.Remove(item);
+                                //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
+                                //SelectedItems collection.
+                                if (!item.SubItems[1].Text.containsIgnoreCase(searchTextBox.Text))
+                                {
+                                    listBans.Items.Remove(item);
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                     case "Reason": // bList
-                    {
-                        foreach (ListViewItem item in listBans.Items)
                         {
-                            //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
-                            //SelectedItems collection.
-                            if (!item.SubItems[3].Text.containsIgnoreCase(searchTextBox.Text))
+                            foreach (ListViewItem item in listBans.Items)
                             {
-                                listBans.Items.Remove(item);
+                                //Selected = true, won't show until the listview has focus, but setting it to true puts it in the 
+                                //SelectedItems collection.
+                                if (!item.SubItems[3].Text.containsIgnoreCase(searchTextBox.Text))
+                                {
+                                    listBans.Items.Remove(item);
+                                }
                             }
+                            break;
                         }
-                        break;
-                    }
                 }
             }
             else if (searchTextBox.Text.Length == 0)
@@ -1316,5 +1306,57 @@ namespace Sparc
                 updateBanList();
             }
         }
+
+        private void tabPlayer_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabPlayer.SelectedIndex)
+            {
+                case 0:
+                    {
+                        searchBox.Items.Clear();
+                        searchBox.Items.AddRange(new object[] {
+                    "Name",
+                    "GUID",
+                    "IP"});
+                        searchBox.SelectedIndex = 0;
+                        break;
+                    }
+
+                case 1:
+                    {
+                        searchBox.Items.Clear();
+                        searchBox.Items.AddRange(new object[] {
+                    "GUID/IP",
+                    "Reason"});
+                        searchBox.SelectedIndex = 0;
+                        break;
+                    }
+            }
+        }
+
+        private void autoRefresh_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autoRefresh.Checked)
+                enableRefreshManual();
+            else
+                refreshTimer.Stop();
+        }
+
+        private void enableRefreshManual()
+        {
+            refreshTimer = new Timer();
+            refreshTimer.Tick += new EventHandler(refreshTimer_Tick);
+            refreshTimer.Interval = Properties.Settings.Default.qbRefreshInterval * 1000;
+            refreshTimer.Start();
+
+            string text = "Auto refresh interval set to " + Properties.Settings.Default.qbRefreshInterval + " seconds.";
+            txAll.SelectionColor = Color.Black;
+            txAll.SelectionFont = new Font("Lucida Console", 8);
+            txConsole.SelectionColor = Color.Black;
+            txConsole.SelectionFont = new Font("Lucida Console", 8);
+            txAll.AppendText("\n" + text);
+            txConsole.AppendText("\n" + text);
+        }
+        #endregion
     }
 }

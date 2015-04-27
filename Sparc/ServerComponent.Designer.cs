@@ -145,14 +145,13 @@
             // 
             this.autoRefresh.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.autoRefresh.AutoSize = true;
-            this.autoRefresh.Checked = true;
-            this.autoRefresh.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoRefresh.Location = new System.Drawing.Point(1191, 539);
             this.autoRefresh.Name = "autoRefresh";
             this.autoRefresh.Size = new System.Drawing.Size(88, 17);
             this.autoRefresh.TabIndex = 57;
             this.autoRefresh.Text = "Auto Refresh";
             this.autoRefresh.UseVisualStyleBackColor = true;
+            this.autoRefresh.CheckedChanged += new System.EventHandler(this.autoRefresh_CheckedChanged);
             // 
             // autoScroll
             // 
