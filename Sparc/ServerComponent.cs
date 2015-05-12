@@ -205,6 +205,14 @@ namespace Sparc
 
         private void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
         {
+            if (args.Message.Contains("Player #") && args.Message.Contains("disconnected"))
+            {
+                removePlayer(parsePlayerDisconnect(args.Message));
+            }
+            if (args.Message.Contains("Verified GUID") && args.Message.Contains("of player #"))
+            {
+                //removePlayer(0);
+            }
             if (args.Message.Contains("[#] [IP Address]:[Port] [Ping] [GUID] [Name]"))
             {
                 parsePlayerList(args.Message);
@@ -428,7 +436,6 @@ namespace Sparc
         private Player parsePlayer(string line)
         {
             Player p = null;
-
             string[] data = System.Text.RegularExpressions.Regex.Replace(line, @"\s+", " ").Split(null, 5);
             int x;
 
@@ -464,6 +471,18 @@ namespace Sparc
                 p = new Player(data[0], ip, data[2], data[3], data[4], lobby);
             }
             return p;
+        }
+
+        private string parsePlayerDisconnect(string line)
+        {
+            //we really don't need to use regex for this, but whatever
+            string[] data = System.Text.RegularExpressions.Regex.Replace(line, @"\s+", " ").Split(null, 3);
+
+            string pn = data[1].Substring(1);
+
+            Console.WriteLine(pn+" disconnected");
+
+            return pn;
         }
 
         private void parseBanList(string list)
@@ -574,6 +593,25 @@ namespace Sparc
         {
             clearBanList();
             b.SendCommand("bans");
+        }
+
+        private void removePlayer(string playerNumber)
+        {
+            /*for(int i = 0; i < PlayerCache.Count(); i++)
+            {
+                if (PlayerCache.ElementAt(i).getPlayerNumber() == playerNumber)
+                    PlayerCache.remo
+            }*/
+
+            foreach(Player p in PlayerCache)
+            {
+                if (p.getPlayerNumber() == playerNumber)
+                {
+                    PlayerCache.Remove(p);
+                    updatePlayerList();
+                    break;
+                }
+            }
         }
 
         private void clearPlayerList()
