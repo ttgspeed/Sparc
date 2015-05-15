@@ -22,9 +22,9 @@ namespace Sparc
         BattlEyeClient b;
         BattlEyeLoginCredentials loginCredentials;
 
-        private bool isConnected;
+        private bool isConnected = false;
 
-        private LinkedList<Player> PlayerCache = new LinkedList<Player>();
+        //private LinkedList<Player> PlayerCache = new LinkedList<Player>();
         private LinkedList<BannedPlayer> BanCache = new LinkedList<BannedPlayer>();
         private LinkedList<Admin> AdminCache = new LinkedList<Admin>();
         private LinkedList<XmlNode> ServerCache = new LinkedList<XmlNode>();
@@ -207,11 +207,11 @@ namespace Sparc
         {
             if (args.Message.Contains("Player #") && args.Message.Contains("disconnected"))
             {
-                removePlayer(parsePlayerDisconnect(args.Message));
+                removePlayerListItem(parsePlayerDisconnect(args.Message));
             }
             if (args.Message.Contains("Verified GUID") && args.Message.Contains("of player #"))
             {
-                //removePlayer(0);
+                addPlayer(parsePlayerConnect(args.Message));
             }
             if (args.Message.Contains("[#] [IP Address]:[Port] [Ping] [GUID] [Name]"))
             {
@@ -350,6 +350,7 @@ namespace Sparc
             if (text.containsIgnoreCase(Properties.Settings.Default.Username) && Properties.Settings.Default.flashOnCall)
             {
                 Flash.FlashWindowEx(this.ParentForm);
+                //this.Parent.color
             }
         }
 
@@ -420,7 +421,7 @@ namespace Sparc
 
         private void parsePlayerList(string list)
         {
-            clearPlayerList();
+            //clearPlayerList();
             string[] lines = list.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string line in lines)
@@ -428,9 +429,11 @@ namespace Sparc
                 Player p = parsePlayer(line);
 
                 if (p != null)
-                    PlayerCache.AddLast(p);
+                    this.listPlayers.BeginInvoke((MethodInvoker)delegate() { updatePlayer(p); });
+                    //PlayerCache.AddLast(p);
             }
-            updatePlayerList();
+            //disabled traditional playerlist for now
+            //updatePlayerList();
         }
 
         private Player parsePlayer(string line)
@@ -470,6 +473,20 @@ namespace Sparc
 
                 p = new Player(data[0], ip, data[2], data[3], data[4], lobby);
             }
+            return p;
+        }
+
+        private Player parsePlayerConnect(string line)
+        {
+            //we really don't need to use regex for this, but whatever
+            string[] data = System.Text.RegularExpressions.Regex.Replace(line, @"\s+", " ").Split(null, 7);
+
+            string guid = data[2].Trim(new Char[] { '(', ')'});
+            string pn = data[5].Substring(1);
+            string name = data[6];
+
+            Player p = new Player(pn, "Unknown", "Unknown", guid, name, true);
+
             return p;
         }
 
@@ -583,7 +600,7 @@ namespace Sparc
 
         private void getPlayerandAdminList()
         {
-            clearPlayerList();
+            //clearPlayerList();
             b.SendCommand("players");
             clearAdminList();
             b.SendCommand("admins");
@@ -595,20 +612,53 @@ namespace Sparc
             b.SendCommand("bans");
         }
 
-        private void removePlayer(string playerNumber)
+        private void addPlayer(Player p)
         {
-            /*for(int i = 0; i < PlayerCache.Count(); i++)
-            {
-                if (PlayerCache.ElementAt(i).getPlayerNumber() == playerNumber)
-                    PlayerCache.remo
-            }*/
+            this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Add(new ListViewItem(p.getPlayerInfo())); });
+        }
 
+        private void updatePlayer(Player p)
+        {
+            bool newplayer = true;
+
+            for (int i = 0; i < listPlayers.Items.Count; i++)
+            {
+
+                if (listPlayers.Items[i].SubItems[0].Text == p.getPlayerNumber())
+                {
+                    listPlayers.Items[i] = new ListViewItem(p.getPlayerInfo());
+                    newplayer = false;
+                    break;
+                }
+            }
+
+            if (newplayer)
+            {
+                this.listPlayers.Items.Add(new ListViewItem(p.getPlayerInfo()));
+            }
+        }
+
+        /*private void removePlayer(string playerNumber)
+        {
             foreach(Player p in PlayerCache)
             {
                 if (p.getPlayerNumber() == playerNumber)
                 {
                     PlayerCache.Remove(p);
-                    updatePlayerList();
+                    this.listPlayers.BeginInvoke((MethodInvoker)delegate() { removePlayerListItem(playerNumber); });
+                    break;
+                }
+            }
+        }*/
+
+        private void removePlayerListItem(string playerNumber)
+        {
+            foreach(ListViewItem lvi in listPlayers.Items)
+            {
+                if(lvi.SubItems[0].Text == playerNumber)
+                {
+                    lvi.Remove();
+                    listDisconnected.Items.Add(lvi);
                     break;
                 }
             }
@@ -616,7 +666,7 @@ namespace Sparc
 
         private void clearPlayerList()
         {
-            PlayerCache.Clear();
+            //PlayerCache.Clear();
             this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Clear(); });
         }
 
@@ -632,17 +682,16 @@ namespace Sparc
             this.listAdmins.BeginInvoke((MethodInvoker)delegate() { this.listAdmins.Items.Clear(); });
         }
 
-        private void updatePlayerList()
+        /*private void updatePlayerList()
         {
             this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Clear(); });
 
             foreach (Player p in PlayerCache)
                 this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Add(new ListViewItem(p.getPlayerInfo())); });
-        }
+        }*/
 
         private void updateBanList()
         {
-            //cleanCache();
             this.listBans.BeginInvoke((MethodInvoker)delegate() { this.listBans.Items.Clear(); });
 
             foreach (BannedPlayer p in BanCache)
@@ -651,31 +700,9 @@ namespace Sparc
 
         private void updateAdminList()
         {
-            //cleanCache();
-
             foreach (Admin p in AdminCache)
                 this.listAdmins.BeginInvoke((MethodInvoker)delegate() { this.listAdmins.Items.Add(new ListViewItem(p.getPlayerInfo())); });
         }
-
-        /*private void cleanCache()
-        {
-            foreach(Player p in PlayerCache)
-                if (playerCached(p))
-                    PlayerCache.Remove(p);
-        }
-
-        private bool playerCached(Player p)
-        {
-            bool isCached = false;
-
-            foreach(Player player in PlayerCache)
-            {
-                if (player.getPlayerGuid() == p.getPlayerGuid())
-                    isCached = true;
-            }
-
-            return isCached;
-        }*/
 
         private async void btnPlayerRefresh_Click(object sender, EventArgs e)
         {
@@ -756,6 +783,19 @@ namespace Sparc
                     //create an object that can still be accessed even after the item has been deselected (list refresh crash fix)
                     lastSelected = listPlayers.SelectedItems[0];
                     playerMenu.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void listDisconnected_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (listDisconnected.FocusedItem.Bounds.Contains(e.Location) == true)
+                {
+                    //create an object that can still be accessed even after the item has been deselected (list refresh crash fix)
+                    lastSelected = listDisconnected.SelectedItems[0];
+                    disconnectedPlayerMenu.Show(Cursor.Position);
                 }
             }
         }
@@ -1340,7 +1380,7 @@ namespace Sparc
             }
             else if (searchTextBox.Text.Length == 0)
             {
-                updatePlayerList();
+                //updatePlayerList();
                 updateBanList();
             }
         }

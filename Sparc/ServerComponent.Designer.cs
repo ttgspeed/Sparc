@@ -71,6 +71,14 @@
             this.listAdmins = new System.Windows.Forms.ListView();
             this.adminNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.adminIP = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabDisconnected = new System.Windows.Forms.TabPage();
+            this.listDisconnected = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.playerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.miCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyGUID = new System.Windows.Forms.ToolStripMenuItem();
@@ -114,6 +122,13 @@
             this.adminCount = new System.Windows.Forms.Label();
             this.banLabel = new System.Windows.Forms.Label();
             this.banCount = new System.Windows.Forms.Label();
+            this.disconnectedPlayerMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmsiCopyGUID = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmsiCopyIP = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmsiCopyName = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.dmiBan = new System.Windows.Forms.ToolStripMenuItem();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
@@ -122,10 +137,12 @@
             this.tabPlayers.SuspendLayout();
             this.tabBans.SuspendLayout();
             this.tabAdmins.SuspendLayout();
+            this.tabDisconnected.SuspendLayout();
             this.playerMenu.SuspendLayout();
             this.executeMenu.SuspendLayout();
             this.deleteMenu.SuspendLayout();
             this.bannedMenu.SuspendLayout();
+            this.disconnectedPlayerMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdOption
@@ -395,6 +412,7 @@
             this.tabPlayer.Controls.Add(this.tabPlayers);
             this.tabPlayer.Controls.Add(this.tabBans);
             this.tabPlayer.Controls.Add(this.tabAdmins);
+            this.tabPlayer.Controls.Add(this.tabDisconnected);
             this.tabPlayer.Location = new System.Drawing.Point(169, 6);
             this.tabPlayer.Multiline = true;
             this.tabPlayer.Name = "tabPlayer";
@@ -554,6 +572,68 @@
             // 
             this.adminIP.Text = "IP";
             this.adminIP.Width = 95;
+            // 
+            // tabDisconnected
+            // 
+            this.tabDisconnected.Controls.Add(this.listDisconnected);
+            this.tabDisconnected.Location = new System.Drawing.Point(23, 4);
+            this.tabDisconnected.Name = "tabDisconnected";
+            this.tabDisconnected.Padding = new System.Windows.Forms.Padding(3);
+            this.tabDisconnected.Size = new System.Drawing.Size(1084, 284);
+            this.tabDisconnected.TabIndex = 3;
+            this.tabDisconnected.Text = "Disconnected";
+            this.tabDisconnected.UseVisualStyleBackColor = true;
+            // 
+            // listDisconnected
+            // 
+            this.listDisconnected.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader4,
+            this.columnHeader5,
+            this.columnHeader6});
+            this.listDisconnected.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listDisconnected.FullRowSelect = true;
+            this.listDisconnected.GridLines = true;
+            this.listDisconnected.HideSelection = false;
+            this.listDisconnected.Location = new System.Drawing.Point(3, 3);
+            this.listDisconnected.MultiSelect = false;
+            this.listDisconnected.Name = "listDisconnected";
+            this.listDisconnected.Size = new System.Drawing.Size(1078, 278);
+            this.listDisconnected.TabIndex = 1;
+            this.listDisconnected.UseCompatibleStateImageBehavior = false;
+            this.listDisconnected.View = System.Windows.Forms.View.Details;
+            this.listDisconnected.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listDisconnected_MouseClick);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "#";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Name";
+            this.columnHeader2.Width = 171;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Last Status";
+            this.columnHeader3.Width = 158;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "GUID";
+            this.columnHeader4.Width = 307;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "IP";
+            this.columnHeader5.Width = 95;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Ping";
+            this.columnHeader6.Width = 51;
             // 
             // playerMenu
             // 
@@ -925,6 +1005,58 @@
             this.banCount.TabIndex = 72;
             this.banCount.Text = "0";
             // 
+            // disconnectedPlayerMenu
+            // 
+            this.disconnectedPlayerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripSeparator6,
+            this.dmiBan});
+            this.disconnectedPlayerMenu.Name = "playerMenu";
+            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(103, 54);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dmsiCopyGUID,
+            this.dmsiCopyIP,
+            this.dmsiCopyName});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem1.Text = "Copy";
+            // 
+            // dmsiCopyGUID
+            // 
+            this.dmsiCopyGUID.Name = "dmsiCopyGUID";
+            this.dmsiCopyGUID.Size = new System.Drawing.Size(106, 22);
+            this.dmsiCopyGUID.Text = "GUID";
+            this.dmsiCopyGUID.Click += new System.EventHandler(this.msiCopyGUID_Click);
+            // 
+            // dmsiCopyIP
+            // 
+            this.dmsiCopyIP.Name = "dmsiCopyIP";
+            this.dmsiCopyIP.Size = new System.Drawing.Size(106, 22);
+            this.dmsiCopyIP.Text = "IP";
+            this.dmsiCopyIP.Click += new System.EventHandler(this.msiCopyIP_Click);
+            // 
+            // dmsiCopyName
+            // 
+            this.dmsiCopyName.Name = "dmsiCopyName";
+            this.dmsiCopyName.Size = new System.Drawing.Size(106, 22);
+            this.dmsiCopyName.Text = "Name";
+            this.dmsiCopyName.Click += new System.EventHandler(this.msiCopyName_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(99, 6);
+            // 
+            // dmiBan
+            // 
+            this.dmiBan.Name = "dmiBan";
+            this.dmiBan.Size = new System.Drawing.Size(102, 22);
+            this.dmiBan.Text = "Ban";
+            this.dmiBan.Click += new System.EventHandler(this.miBan_Click);
+            // 
             // ServerComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -973,10 +1105,12 @@
             this.tabPlayers.ResumeLayout(false);
             this.tabBans.ResumeLayout(false);
             this.tabAdmins.ResumeLayout(false);
+            this.tabDisconnected.ResumeLayout(false);
             this.playerMenu.ResumeLayout(false);
             this.executeMenu.ResumeLayout(false);
             this.deleteMenu.ResumeLayout(false);
             this.bannedMenu.ResumeLayout(false);
+            this.disconnectedPlayerMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1069,5 +1203,20 @@
         private System.Windows.Forms.Label adminCount;
         private System.Windows.Forms.Label banLabel;
         private System.Windows.Forms.Label banCount;
+        private System.Windows.Forms.TabPage tabDisconnected;
+        private System.Windows.Forms.ListView listDisconnected;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ContextMenuStrip disconnectedPlayerMenu;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem dmsiCopyGUID;
+        private System.Windows.Forms.ToolStripMenuItem dmsiCopyIP;
+        private System.Windows.Forms.ToolStripMenuItem dmsiCopyName;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripMenuItem dmiBan;
     }
 }
