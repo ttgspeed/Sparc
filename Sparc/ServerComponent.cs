@@ -207,7 +207,7 @@ namespace Sparc
         {
             if (args.Message.Contains("Player #") && args.Message.Contains("disconnected"))
             {
-                removePlayerListItem(parsePlayerDisconnect(args.Message));
+                this.listPlayers.BeginInvoke((MethodInvoker)delegate() { removePlayerListItem(parsePlayerDisconnect(args.Message)); });
             }
             if (args.Message.Contains("Verified GUID") && args.Message.Contains("of player #"))
             {
@@ -626,7 +626,13 @@ namespace Sparc
 
                 if (listPlayers.Items[i].SubItems[0].Text == p.getPlayerNumber())
                 {
-                    listPlayers.Items[i] = new ListViewItem(p.getPlayerInfo());
+                    //listPlayers.Items[i] = new ListViewItem(p.getPlayerInfo());
+                    listPlayers.Items[i].SubItems[0].Text = p.getPlayerNumber();
+                    listPlayers.Items[i].SubItems[1].Text = p.getPlayerName();
+                    listPlayers.Items[i].SubItems[2].Text = (p.getPlayerStatus().Contains("Lobby")) ? listPlayers.Items[i].SubItems[2].Text : p.getPlayerStatus(); //only update they're not still in the lobby
+                    listPlayers.Items[i].SubItems[3].Text = p.getPlayerGuid();
+                    listPlayers.Items[i].SubItems[4].Text = p.getPlayerIP();
+                    listPlayers.Items[i].SubItems[5].Text = p.getPlayerPing();
                     newplayer = false;
                     break;
                 }
