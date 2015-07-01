@@ -123,7 +123,7 @@ namespace Sparc
                     Directory.CreateDirectory(dir);
             }
 
-            getPlayerandAdminList();
+            getConnectedClients();
 
             await Task.Delay(1000);
             playerCount.Text = listPlayers.Items.Count.ToString();
@@ -135,7 +135,8 @@ namespace Sparc
             }
             if (Properties.Settings.Default.loadBanConnect)
             {
-                btnBanRefresh.PerformClick();
+                //btnBanRefresh.PerformClick();
+                getBanList();
             }
 
             if (Properties.Settings.Default.autoRefresh || autoRefresh.Checked)
@@ -169,14 +170,15 @@ namespace Sparc
 
         private void refreshTimer_Tick(object sender, EventArgs e)
         {
-            btnBanRefresh.PerformClick();
-            btnPlayerRefresh.PerformClick();
+            //btnBanRefresh.PerformClick();
+            //btnPlayerRefresh.PerformClick();
+            getConnectedClients();
         }
 
         #endregion
 
         /*
-         * MAIN BATTLEYE CALLBACK FUNCTIONS
+         * MAIN BATTLEYE INTERFACE
          */
         #region BE_INTF_MAIN
 
@@ -205,7 +207,7 @@ namespace Sparc
 
         private void BattlEyeMessageReceived(BattlEyeMessageEventArgs args)
         {
-            if (args.Message.Contains("Player #") && args.Message.Contains("disconnected"))
+            if (args.Message.Contains("Player #") && (args.Message.Contains("disconnected")||args.Message.Contains("kicked")))
             {
                 this.listPlayers.BeginInvoke((MethodInvoker)delegate() { removePlayerListItem(parsePlayerDisconnect(args.Message)); });
             }
@@ -319,7 +321,8 @@ namespace Sparc
                     {
                         cooldownTimer.Interval = 5000; // this should honestly be enough
                         cooldownTimer.Start();
-                        btnPlayerRefresh.PerformClick();
+                        //btnPlayerRefresh.PerformClick();
+                        getConnectedClients();
                     }
                 }
             }
@@ -421,6 +424,7 @@ namespace Sparc
 
         private void parsePlayerList(string list)
         {
+            Console.WriteLine("Parsing player list");
             //clearPlayerList();
             string[] lines = list.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -598,7 +602,7 @@ namespace Sparc
             return p;
         }
 
-        private void getPlayerandAdminList()
+        private void getConnectedClients()
         {
             //clearPlayerList();
             b.SendCommand("players");
@@ -712,7 +716,7 @@ namespace Sparc
 
         private async void btnPlayerRefresh_Click(object sender, EventArgs e)
         {
-            getPlayerandAdminList();
+            getConnectedClients();
 
             string text = "Refreshing players...";
             txAll.SelectionColor = Color.Black;
@@ -1068,7 +1072,8 @@ namespace Sparc
                 }
             }
             modal.Dispose();
-            btnBanRefresh.PerformClick();
+            //btnBanRefresh.PerformClick();
+            getBanList();
         }
         #endregion
 
@@ -1234,6 +1239,11 @@ namespace Sparc
             {
                 MessageBox.Show("The server could not be deleted");
             }
+        }
+
+        private void dmiClear_Click(object sender, EventArgs e)
+        {
+            this.listDisconnected.BeginInvoke((MethodInvoker)delegate() { this.listDisconnected.Items.Clear(); });
         }
         #endregion
 
