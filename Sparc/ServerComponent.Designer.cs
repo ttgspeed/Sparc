@@ -129,6 +129,8 @@
             this.dmsiCopyName = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.dmiBan = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.dmiClear = new System.Windows.Forms.ToolStripMenuItem();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
@@ -1010,9 +1012,11 @@
             this.disconnectedPlayerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripSeparator6,
-            this.dmiBan});
+            this.dmiBan,
+            this.toolStripSeparator7,
+            this.dmiClear});
             this.disconnectedPlayerMenu.Name = "playerMenu";
-            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(103, 54);
+            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(153, 104);
             // 
             // toolStripMenuItem1
             // 
@@ -1021,7 +1025,7 @@
             this.dmsiCopyIP,
             this.dmsiCopyName});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItem1.Text = "Copy";
             // 
             // dmsiCopyGUID
@@ -1048,14 +1052,26 @@
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(99, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
             // 
             // dmiBan
             // 
             this.dmiBan.Name = "dmiBan";
-            this.dmiBan.Size = new System.Drawing.Size(102, 22);
+            this.dmiBan.Size = new System.Drawing.Size(152, 22);
             this.dmiBan.Text = "Ban";
             this.dmiBan.Click += new System.EventHandler(this.miBan_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            // 
+            // dmiClear
+            // 
+            this.dmiClear.Name = "dmiClear";
+            this.dmiClear.Size = new System.Drawing.Size(152, 22);
+            this.dmiClear.Text = "Clear List";
+            this.dmiClear.Click += new System.EventHandler(this.dmiClear_Click);
             // 
             // ServerComponent
             // 
@@ -1218,5 +1234,7 @@
         private System.Windows.Forms.ToolStripMenuItem dmsiCopyName;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem dmiBan;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem dmiClear;
     }
 }
