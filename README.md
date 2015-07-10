@@ -8,6 +8,7 @@ Key Features
 - Save your favorite servers and quickly connect to them.
 - Connect to **multiple servers simultaneously** through Sparc's server tab system!
 - Easy and intuitive lists showing player-, ban- and admins list with a search filter on multiple columns.
+- Players are automatically added and removed from the player list upon [dis]connect, no need to refresh.
 - Three tabs (All, Chat, Console) to keep track of everything that is happening on the server.
 - These three tabs can also be logged to text files and will then be timestamped and appended with the hostname.
 - Each chat type is portrayed in a different color so they can be easily distinguished.
@@ -16,7 +17,7 @@ Key Features
 
 ***
 
-If you distribute a copy or make a fork of the project, you have to credit this project as source.
+If you distribute a copy or make a fork of the project, you must credit this project as source.
 	
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
  
