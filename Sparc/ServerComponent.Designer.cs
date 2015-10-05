@@ -52,6 +52,8 @@
             this.txChat = new System.Windows.Forms.RichTextBox();
             this.tabConsole = new System.Windows.Forms.TabPage();
             this.txConsole = new System.Windows.Forms.RichTextBox();
+            this.tabAlerts = new System.Windows.Forms.TabPage();
+            this.txAlert = new System.Windows.Forms.RichTextBox();
             this.tabPlayer = new System.Windows.Forms.TabControl();
             this.tabPlayers = new System.Windows.Forms.TabPage();
             this.listPlayers = new System.Windows.Forms.ListView();
@@ -135,6 +137,7 @@
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
             this.tabConsole.SuspendLayout();
+            this.tabAlerts.SuspendLayout();
             this.tabPlayer.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabBans.SuspendLayout();
@@ -321,6 +324,7 @@
             this.chatTabs.Controls.Add(this.tabAll);
             this.chatTabs.Controls.Add(this.tabChat);
             this.chatTabs.Controls.Add(this.tabConsole);
+            this.chatTabs.Controls.Add(this.tabAlerts);
             this.chatTabs.Location = new System.Drawing.Point(169, 322);
             this.chatTabs.Multiline = true;
             this.chatTabs.Name = "chatTabs";
@@ -404,6 +408,32 @@
             this.txConsole.TabIndex = 0;
             this.txConsole.Text = "";
             this.txConsole.TextChanged += new System.EventHandler(this.txConsole_TextChanged);
+            // 
+            // tabAlerts
+            // 
+            this.tabAlerts.Controls.Add(this.txAlert);
+            this.tabAlerts.Location = new System.Drawing.Point(23, 4);
+            this.tabAlerts.Name = "tabAlerts";
+            this.tabAlerts.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAlerts.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tabAlerts.Size = new System.Drawing.Size(1083, 198);
+            this.tabAlerts.TabIndex = 3;
+            this.tabAlerts.Text = "Alerts";
+            this.tabAlerts.UseVisualStyleBackColor = true;
+            // 
+            // txAlert
+            // 
+            this.txAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txAlert.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txAlert.Location = new System.Drawing.Point(4, 4);
+            this.txAlert.Name = "txAlert";
+            this.txAlert.ReadOnly = true;
+            this.txAlert.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txAlert.Size = new System.Drawing.Size(1075, 190);
+            this.txAlert.TabIndex = 1;
+            this.txAlert.Text = "";
             // 
             // tabPlayer
             // 
@@ -1016,7 +1046,7 @@
             this.toolStripSeparator7,
             this.dmiClear});
             this.disconnectedPlayerMenu.Name = "playerMenu";
-            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(153, 104);
+            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(123, 82);
             // 
             // toolStripMenuItem1
             // 
@@ -1025,7 +1055,7 @@
             this.dmsiCopyIP,
             this.dmsiCopyName});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(122, 22);
             this.toolStripMenuItem1.Text = "Copy";
             // 
             // dmsiCopyGUID
@@ -1052,24 +1082,24 @@
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(119, 6);
             // 
             // dmiBan
             // 
             this.dmiBan.Name = "dmiBan";
-            this.dmiBan.Size = new System.Drawing.Size(152, 22);
+            this.dmiBan.Size = new System.Drawing.Size(122, 22);
             this.dmiBan.Text = "Ban";
             this.dmiBan.Click += new System.EventHandler(this.miBan_Click);
             // 
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(119, 6);
             // 
             // dmiClear
             // 
             this.dmiClear.Name = "dmiClear";
-            this.dmiClear.Size = new System.Drawing.Size(152, 22);
+            this.dmiClear.Size = new System.Drawing.Size(122, 22);
             this.dmiClear.Text = "Clear List";
             this.dmiClear.Click += new System.EventHandler(this.dmiClear_Click);
             // 
@@ -1117,6 +1147,7 @@
             this.tabAll.ResumeLayout(false);
             this.tabChat.ResumeLayout(false);
             this.tabConsole.ResumeLayout(false);
+            this.tabAlerts.ResumeLayout(false);
             this.tabPlayer.ResumeLayout(false);
             this.tabPlayers.ResumeLayout(false);
             this.tabBans.ResumeLayout(false);
@@ -1236,5 +1267,7 @@
         private System.Windows.Forms.ToolStripMenuItem dmiBan;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
         private System.Windows.Forms.ToolStripMenuItem dmiClear;
+        private System.Windows.Forms.TabPage tabAlerts;
+        private System.Windows.Forms.RichTextBox txAlert;
     }
 }

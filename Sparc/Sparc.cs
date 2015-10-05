@@ -73,8 +73,11 @@ namespace Sparc
                     if (r.Contains(e.Location))
                     {
                         // show the context menu here
-                        this.tabServers.TabPages.Remove(this.tabServers.TabPages[i] as TabPage);
-                        tabServers.SelectedIndex = i - 1;
+                        if (MessageBox.Show("This will disconnect you from the current server. Are you sure?", "Close Connection", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            this.tabServers.TabPages.Remove(this.tabServers.TabPages[i] as TabPage);
+                            tabServers.SelectedIndex = i - 1;
+                        }
                     }
                 }
             }
