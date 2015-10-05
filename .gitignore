@@ -233,3 +233,9 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
+Sparc/bin/Debug/servers.xml
+*.pdb
+Sparc/bin/Debug/Sparc.pdb
+Sparc/obj/Debug/Sparc.csproj.FileListAbsolute.txt
+Sparc/obj/Debug/Sparc.csproj.GenerateResource.Cache
+*.Cache

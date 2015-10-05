@@ -64,10 +64,10 @@ namespace Sparc
             cooldownTimer.Tick += new EventHandler(cooldownTimer_Tick);
             cooldownTimer.Enabled = false;
 
-            txAll.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
-            txConsole.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
-            txChat.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
-            txAlert.AppendText("Sparc " + Globals.sparcVersion + " initialized!");
+            txAll.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+            txConsole.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+            txChat.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+            txAlert.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
 
             loadServerList();
         }
@@ -86,6 +86,11 @@ namespace Sparc
             }
             else
             {
+                txAll.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+                txConsole.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+                txChat.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+                txAlert.Text = ("Sparc " + Globals.sparcVersion + " initialized!");
+
                 loginCredentials = GetLoginCredentials();
                 b = new BattlEyeClient(loginCredentials);
                 b.BattlEyeMessageReceived += BattlEyeMessageReceived;
@@ -126,9 +131,6 @@ namespace Sparc
 
             getConnectedClients();
 
-            await Task.Delay(1000);
-            playerCount.Text = PlayerCache.Count().ToString();
-            adminCount.Text = listAdmins.Items.Count.ToString();
             if (Properties.Settings.Default.autoRefresh || autoRefresh.Checked)
             {
                 cooldownTimer.Interval = 5000; // 5 seconds should be enough for the first interval, don't want two refreshes going on at connect!
@@ -171,8 +173,6 @@ namespace Sparc
 
         private void refreshTimer_Tick(object sender, EventArgs e)
         {
-            //btnBanRefresh.PerformClick();
-            //btnPlayerRefresh.PerformClick();
             getConnectedClients();
         }
 
@@ -322,7 +322,6 @@ namespace Sparc
                     {
                         cooldownTimer.Interval = 5000; // this should honestly be enough
                         cooldownTimer.Start();
-                        //btnPlayerRefresh.PerformClick();
                         getConnectedClients();
                     }
                 }
@@ -512,7 +511,7 @@ namespace Sparc
             {
                 if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid())
                 {
-                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + "(" + p.getPlayerHost() + ") " + p.getPlayerName() + " was previously seen on " + historicalPlayer.getPlayerHost() + "(" + p.getPlayerGuid()+") - (" + historicalPlayer.getPlayerGuid() +")");
+                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " was previously seen on " + historicalPlayer.getPlayerHost());
                 }
             }
             Globals.GlobalPlayerCache.AddLast(p);
@@ -713,7 +712,6 @@ namespace Sparc
 
         private void reloadPlayerList()
         {
-            Console.WriteLine("Cache size: "+PlayerCache.Count());
             this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Clear(); });
 
             foreach (Player p in PlayerCache)
@@ -731,7 +729,7 @@ namespace Sparc
         private void updateAdminList()
         {
             foreach (Admin p in AdminCache)
-                this.listAdmins.BeginInvoke((MethodInvoker)delegate() { this.listAdmins.Items.Add(new ListViewItem(p.getPlayerInfo())); });
+                this.listAdmins.BeginInvoke((MethodInvoker)delegate() { this.listAdmins.Items.Add(new ListViewItem(p.getPlayerInfo())); adminCount.Text = listAdmins.Items.Count.ToString(); });
         }
 
         private async void btnPlayerRefresh_Click(object sender, EventArgs e)
@@ -1023,7 +1021,6 @@ namespace Sparc
             if (dialogResult == DialogResult.Yes)
             {
                 b.SendCommand("#lock");
-                Console.WriteLine("Locked");
             }
         }
 
@@ -1033,7 +1030,6 @@ namespace Sparc
             if (dialogResult == DialogResult.Yes)
             {
                 b.SendCommand("#unlock");
-                Console.WriteLine("Unlocked");
             }
         }
 
@@ -1132,65 +1128,66 @@ namespace Sparc
 
         private void btnSaveHost_Click(object sender, EventArgs e)
         {
-            string nickname = "";
+            bool newServer = true;
             SaveFavorite modal = new SaveFavorite();
 
-            if (modal.ShowDialog(this) == DialogResult.OK)
+            try
             {
-                nickname = modal.mtxNickname.Text;
+                XmlDocument doc = new XmlDocument();
+                doc.Load(@"servers.xml");
 
-                try
+                foreach (XmlNode node in doc.DocumentElement.ChildNodes)
                 {
-                    XmlDocument doc = new XmlDocument();
-                    doc.Load(@"servers.xml");
-
-                    //XElement servers = doc.Element("Servers");
-                    //doc.GetElementsByTagName("Servers");
-
-                    foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                    if (node["Host"].InnerText == txHost.Text && node["Port"].InnerText == txPort.Text)
                     {
-                        if (node.Attributes["Name"].Value == nickname)
+                        newServer = false;
+                        DialogResult dialogResult = MessageBox.Show(txHost.Text + ":"+ txPort.Text + " already exists as " + node.Attributes["Name"].Value + ". \nDo you wish to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        if (dialogResult == DialogResult.Yes)
                         {
-                            //doc.DocumentElement.RemoveChild(node);
-                            DialogResult dialogResult = MessageBox.Show("Server "+nickname+" already exists. Are you sure you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                            if (dialogResult == DialogResult.Yes)
-                            {
-                                for (int i = 0; i < doc.DocumentElement.ChildNodes.Count; i++)
-                                {
-                                    if (doc.DocumentElement.ChildNodes[i].Value == "Host")
-                                        doc.DocumentElement.ChildNodes[i].Value = txHost.Text;
-                                    if (doc.DocumentElement.ChildNodes[i].Name == "Port")
-                                        doc.DocumentElement.ChildNodes[i].Value = txPort.Text;
-                                    if (doc.DocumentElement.ChildNodes[i].Name == "Password")
-                                        doc.DocumentElement.ChildNodes[i].Value = txPasswd.Text;
-                                }
-                            }
-                            break;
+                            node["Password"].InnerText = txPasswd.Text;
+                            doc.Save(@"servers.xml");
                         }
+                        break;
                     }
-
-                    // Add child nodes
-                    XmlElement server = doc.CreateElement("Server");
-
-                    //server.AppendChild(server.InnerXml)
-                    /*XElement server = new XElement("Server");
-                    server.Add(new XAttribute("Name", nickname));
-                    server.Add(new XElement("Host", txHost.Text));
-                    server.Add(new XElement("Port", txPort.Text));
-                    server.Add(new XElement("Password", txPasswd.Text));
-
-                    servers.Add(server);*/
-
-                    doc.Save(@"servers.xml");
-                }
-                catch
-                {
-                    MessageBox.Show("The server list could not be loaded");
                 }
 
-                updateServerList();
+                if (newServer)
+                    if (modal.ShowDialog(this) == DialogResult.OK)
+                        addServer(modal.mtxNickname.Text);
             }
+            catch
+            {
+                MessageBox.Show("The server list could not be loaded");
+            }
+
+            updateServerList();
             modal.Dispose();
+        }
+
+        private void addServer(string nickname)
+        {
+            try
+            {
+                var doc = XDocument.Load(@"servers.xml");
+
+                XElement servers = doc.Element("Servers");
+
+                // Add child nodes
+                XElement server = new XElement("Server");
+                server.Add(new XAttribute("Name", nickname));
+                server.Add(new XElement("Host", txHost.Text));
+                server.Add(new XElement("Port", txPort.Text));
+                server.Add(new XElement("Password", txPasswd.Text));
+
+                servers.Add(server);
+
+                servers.Save(@"servers.xml");
+            }
+            catch
+            {
+                MessageBox.Show("The server list could not be loaded");
+            }
+            updateServerList();
         }
 
         private void loadServerList()
