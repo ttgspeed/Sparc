@@ -3,11 +3,12 @@ using System.Net;
 
 public class Player
 {
-    string number, ip, ping, guid, name;
+    string host, number, ip, ping, guid, name;
     bool lobby;
 
-	public Player(string number, string ip, string ping, string guid, string name, bool lobby)
+	public Player(string host, string number, string ip, string ping, string guid, string name, bool lobby)
 	{
+        this.host = host;
         this.number = number;
         this.ip = ip;
         this.ping = ping;
@@ -15,6 +16,11 @@ public class Player
         this.name = name;
         this.lobby = lobby;
 	}
+
+    public string getPlayerHost()
+    {
+        return host;
+    }
 
     public string getPlayerNumber()
     {
