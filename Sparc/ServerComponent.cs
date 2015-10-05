@@ -1141,20 +1141,47 @@ namespace Sparc
 
                 try
                 {
-                    var doc = XDocument.Load(@"servers.xml");
+                    XmlDocument doc = new XmlDocument();
+                    doc.Load(@"servers.xml");
 
-                    XElement servers = doc.Element("Servers");
+                    //XElement servers = doc.Element("Servers");
+                    //doc.GetElementsByTagName("Servers");
+
+                    foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+                    {
+                        if (node.Attributes["Name"].Value == nickname)
+                        {
+                            //doc.DocumentElement.RemoveChild(node);
+                            DialogResult dialogResult = MessageBox.Show("Server "+nickname+" already exists. Are you sure you want to overwrite it?", "Overwrite?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                            if (dialogResult == DialogResult.Yes)
+                            {
+                                for (int i = 0; i < doc.DocumentElement.ChildNodes.Count; i++)
+                                {
+                                    if (doc.DocumentElement.ChildNodes[i].Value == "Host")
+                                        doc.DocumentElement.ChildNodes[i].Value = txHost.Text;
+                                    if (doc.DocumentElement.ChildNodes[i].Name == "Port")
+                                        doc.DocumentElement.ChildNodes[i].Value = txPort.Text;
+                                    if (doc.DocumentElement.ChildNodes[i].Name == "Password")
+                                        doc.DocumentElement.ChildNodes[i].Value = txPasswd.Text;
+                                }
+                            }
+                            break;
+                        }
+                    }
 
                     // Add child nodes
-                    XElement server = new XElement("Server");
+                    XmlElement server = doc.CreateElement("Server");
+
+                    //server.AppendChild(server.InnerXml)
+                    /*XElement server = new XElement("Server");
                     server.Add(new XAttribute("Name", nickname));
                     server.Add(new XElement("Host", txHost.Text));
                     server.Add(new XElement("Port", txPort.Text));
                     server.Add(new XElement("Password", txPasswd.Text));
 
-                    servers.Add(server);
+                    servers.Add(server);*/
 
-                    servers.Save(@"servers.xml");
+                    doc.Save(@"servers.xml");
                 }
                 catch
                 {
