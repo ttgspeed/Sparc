@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.stDetectServhop = new System.Windows.Forms.CheckBox();
             this.stLoadBanConnect = new System.Windows.Forms.CheckBox();
             this.stAutoRefresh = new System.Windows.Forms.CheckBox();
             this.stSaveLogs = new System.Windows.Forms.CheckBox();
@@ -55,7 +56,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.stRefreshPlayerChange = new System.Windows.Forms.CheckBox();
             this.btnAbout = new System.Windows.Forms.Button();
-            this.stDetectServhop = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stqbTime)).BeginInit();
@@ -79,6 +79,16 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "General";
+            // 
+            // stDetectServhop
+            // 
+            this.stDetectServhop.AutoSize = true;
+            this.stDetectServhop.Location = new System.Drawing.Point(6, 127);
+            this.stDetectServhop.Name = "stDetectServhop";
+            this.stDetectServhop.Size = new System.Drawing.Size(135, 17);
+            this.stDetectServhop.TabIndex = 8;
+            this.stDetectServhop.Text = "Detect Server Hopping";
+            this.stDetectServhop.UseVisualStyleBackColor = true;
             // 
             // stLoadBanConnect
             // 
@@ -213,7 +223,7 @@
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(12, 258);
+            this.btnSaveSettings.Location = new System.Drawing.Point(12, 248);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(158, 23);
             this.btnSaveSettings.TabIndex = 3;
@@ -268,9 +278,9 @@
             this.groupBox4.Controls.Add(this.sthlAdmin);
             this.groupBox4.Controls.Add(this.sthlName);
             this.groupBox4.Controls.Add(this.stflashOnCall);
-            this.groupBox4.Location = new System.Drawing.Point(12, 165);
+            this.groupBox4.Location = new System.Drawing.Point(176, 210);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(158, 87);
+            this.groupBox4.Size = new System.Drawing.Size(158, 90);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Chat Settings";
@@ -278,7 +288,7 @@
             // sparcVersion
             // 
             this.sparcVersion.AutoSize = true;
-            this.sparcVersion.Location = new System.Drawing.Point(128, 297);
+            this.sparcVersion.Location = new System.Drawing.Point(128, 287);
             this.sparcVersion.Name = "sparcVersion";
             this.sparcVersion.Size = new System.Drawing.Size(37, 13);
             this.sparcVersion.TabIndex = 6;
@@ -287,7 +297,7 @@
             // sparcTitle
             // 
             this.sparcTitle.AutoSize = true;
-            this.sparcTitle.Location = new System.Drawing.Point(127, 284);
+            this.sparcTitle.Location = new System.Drawing.Point(127, 274);
             this.sparcTitle.Name = "sparcTitle";
             this.sparcTitle.Size = new System.Drawing.Size(35, 13);
             this.sparcTitle.TabIndex = 7;
@@ -324,7 +334,7 @@
             this.groupBox5.Controls.Add(this.stRefreshPlayerChange);
             this.groupBox5.Controls.Add(this.stqbRefreshInterval);
             this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Location = new System.Drawing.Point(176, 210);
+            this.groupBox5.Location = new System.Drawing.Point(12, 165);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(158, 80);
             this.groupBox5.TabIndex = 5;
@@ -343,7 +353,7 @@
             // 
             // btnAbout
             // 
-            this.btnAbout.Location = new System.Drawing.Point(12, 287);
+            this.btnAbout.Location = new System.Drawing.Point(12, 277);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(110, 23);
             this.btnAbout.TabIndex = 8;
@@ -351,21 +361,11 @@
             this.btnAbout.UseVisualStyleBackColor = true;
             this.btnAbout.Click += new System.EventHandler(this.btnAbout_Click);
             // 
-            // stDetectServhop
-            // 
-            this.stDetectServhop.AutoSize = true;
-            this.stDetectServhop.Location = new System.Drawing.Point(6, 127);
-            this.stDetectServhop.Name = "stDetectServhop";
-            this.stDetectServhop.Size = new System.Drawing.Size(135, 17);
-            this.stDetectServhop.TabIndex = 8;
-            this.stDetectServhop.Text = "Detect Server Hopping";
-            this.stDetectServhop.UseVisualStyleBackColor = true;
-            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 316);
+            this.ClientSize = new System.Drawing.Size(346, 309);
             this.Controls.Add(this.btnAbout);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.sparcTitle);
