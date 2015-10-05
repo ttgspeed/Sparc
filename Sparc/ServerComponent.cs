@@ -127,7 +127,7 @@ namespace Sparc
             getConnectedClients();
 
             await Task.Delay(1000);
-            playerCount.Text = listPlayers.Items.Count.ToString();
+            playerCount.Text = PlayerCache.Count().ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
             if (Properties.Settings.Default.autoRefresh || autoRefresh.Checked)
             {
@@ -159,7 +159,7 @@ namespace Sparc
             txSay.Enabled = false;
 
             await Task.Delay(1000);
-            playerCount.Text = listPlayers.Items.Count.ToString();
+            playerCount.Text = PlayerCache.Count().ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
             banCount.Text = listBans.Items.Count.ToString();
 
@@ -442,6 +442,18 @@ namespace Sparc
         {
             bool newplayer = true;
 
+            foreach (Player pc in PlayerCache)
+            {
+                if (p.getPlayerNumber() == pc.getPlayerNumber())
+                {
+                    //"update" the cached player
+                    PlayerCache.Remove(pc);
+                    PlayerCache.AddLast(p);
+                    newplayer = false;
+                    break;
+                }
+            }
+
             for (int i = 0; i < listPlayers.Items.Count; i++)
             {
                 if (listPlayers.Items[i].SubItems[0].Text == p.getPlayerNumber())
@@ -466,6 +478,32 @@ namespace Sparc
                 if (Properties.Settings.Default.detectSrvHop)
                     checkServerHop(p);
             }
+
+            playerCount.Text = PlayerCache.Count().ToString();
+        }
+
+        private void removePlayer(string playerNumber)
+        {
+            foreach (Player p in PlayerCache)
+            {
+                if (p.getPlayerNumber() == playerNumber)
+                {
+                    PlayerCache.Remove(p);
+                    break;
+                }
+            }
+
+            foreach (ListViewItem lvi in listPlayers.Items)
+            {
+                if (lvi.SubItems[0].Text == playerNumber)
+                {
+                    lvi.Remove();
+                    listDisconnected.Items.Add(lvi);
+                    break;
+                }
+            }
+
+            playerCount.Text = PlayerCache.Count().ToString();
         }
 
         private void checkServerHop(Player p)
@@ -643,7 +681,7 @@ namespace Sparc
         private void getConnectedClients()
         {
             //clearPlayerList();
-            PlayerCache.Clear();
+            //PlayerCache.Clear();
             b.SendCommand("players");
             clearAdminList();
             b.SendCommand("admins");
@@ -653,28 +691,6 @@ namespace Sparc
         {
             clearBanList();
             b.SendCommand("bans");
-        }
-
-        private void removePlayer(string playerNumber)
-        {
-            foreach (Player p in PlayerCache)
-            {
-                if (p.getPlayerNumber() == playerNumber)
-                {
-                    PlayerCache.Remove(p);
-                    break;
-                }
-            }
-
-            foreach (ListViewItem lvi in listPlayers.Items)
-            {
-                if (lvi.SubItems[0].Text == playerNumber)
-                {
-                    lvi.Remove();
-                    listDisconnected.Items.Add(lvi);
-                    break;
-                }
-            }
         }
 
         private void clearPlayerList()
@@ -697,6 +713,7 @@ namespace Sparc
 
         private void reloadPlayerList()
         {
+            Console.WriteLine("Cache size: "+PlayerCache.Count());
             this.listPlayers.BeginInvoke((MethodInvoker)delegate() { this.listPlayers.Items.Clear(); });
 
             foreach (Player p in PlayerCache)
@@ -730,7 +747,7 @@ namespace Sparc
             txConsole.SelectionFont = new Font("Lucida Console", 8);
 
             await Task.Delay(1000);
-            playerCount.Text = listPlayers.Items.Count.ToString();
+            //playerCount.Text = PlayerCache.Count().ToString();
             adminCount.Text = listAdmins.Items.Count.ToString();
         }
 

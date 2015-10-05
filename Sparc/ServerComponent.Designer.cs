@@ -52,6 +52,8 @@
             this.txChat = new System.Windows.Forms.RichTextBox();
             this.tabConsole = new System.Windows.Forms.TabPage();
             this.txConsole = new System.Windows.Forms.RichTextBox();
+            this.tabAlerts = new System.Windows.Forms.TabPage();
+            this.txAlert = new System.Windows.Forms.RichTextBox();
             this.tabPlayer = new System.Windows.Forms.TabControl();
             this.tabPlayers = new System.Windows.Forms.TabPage();
             this.listPlayers = new System.Windows.Forms.ListView();
@@ -131,12 +133,11 @@
             this.dmiBan = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.dmiClear = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabAlerts = new System.Windows.Forms.TabPage();
-            this.txAlert = new System.Windows.Forms.RichTextBox();
             this.chatTabs.SuspendLayout();
             this.tabAll.SuspendLayout();
             this.tabChat.SuspendLayout();
             this.tabConsole.SuspendLayout();
+            this.tabAlerts.SuspendLayout();
             this.tabPlayer.SuspendLayout();
             this.tabPlayers.SuspendLayout();
             this.tabBans.SuspendLayout();
@@ -147,7 +148,6 @@
             this.deleteMenu.SuspendLayout();
             this.bannedMenu.SuspendLayout();
             this.disconnectedPlayerMenu.SuspendLayout();
-            this.tabAlerts.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdOption
@@ -408,6 +408,32 @@
             this.txConsole.TabIndex = 0;
             this.txConsole.Text = "";
             this.txConsole.TextChanged += new System.EventHandler(this.txConsole_TextChanged);
+            // 
+            // tabAlerts
+            // 
+            this.tabAlerts.Controls.Add(this.txAlert);
+            this.tabAlerts.Location = new System.Drawing.Point(23, 4);
+            this.tabAlerts.Name = "tabAlerts";
+            this.tabAlerts.Padding = new System.Windows.Forms.Padding(3);
+            this.tabAlerts.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.tabAlerts.Size = new System.Drawing.Size(1083, 198);
+            this.tabAlerts.TabIndex = 3;
+            this.tabAlerts.Text = "Alerts";
+            this.tabAlerts.UseVisualStyleBackColor = true;
+            // 
+            // txAlert
+            // 
+            this.txAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txAlert.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txAlert.Location = new System.Drawing.Point(4, 4);
+            this.txAlert.Name = "txAlert";
+            this.txAlert.ReadOnly = true;
+            this.txAlert.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.txAlert.Size = new System.Drawing.Size(1075, 190);
+            this.txAlert.TabIndex = 1;
+            this.txAlert.Text = "";
             // 
             // tabPlayer
             // 
@@ -1077,32 +1103,6 @@
             this.dmiClear.Text = "Clear List";
             this.dmiClear.Click += new System.EventHandler(this.dmiClear_Click);
             // 
-            // tabAlerts
-            // 
-            this.tabAlerts.Controls.Add(this.txAlert);
-            this.tabAlerts.Location = new System.Drawing.Point(23, 4);
-            this.tabAlerts.Name = "tabAlerts";
-            this.tabAlerts.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAlerts.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tabAlerts.Size = new System.Drawing.Size(1083, 198);
-            this.tabAlerts.TabIndex = 3;
-            this.tabAlerts.Text = "Alerts";
-            this.tabAlerts.UseVisualStyleBackColor = true;
-            // 
-            // txAlert
-            // 
-            this.txAlert.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txAlert.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txAlert.Location = new System.Drawing.Point(4, 4);
-            this.txAlert.Name = "txAlert";
-            this.txAlert.ReadOnly = true;
-            this.txAlert.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.txAlert.Size = new System.Drawing.Size(1075, 190);
-            this.txAlert.TabIndex = 1;
-            this.txAlert.Text = "";
-            // 
             // ServerComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1147,6 +1147,7 @@
             this.tabAll.ResumeLayout(false);
             this.tabChat.ResumeLayout(false);
             this.tabConsole.ResumeLayout(false);
+            this.tabAlerts.ResumeLayout(false);
             this.tabPlayer.ResumeLayout(false);
             this.tabPlayers.ResumeLayout(false);
             this.tabBans.ResumeLayout(false);
@@ -1157,7 +1158,6 @@
             this.deleteMenu.ResumeLayout(false);
             this.bannedMenu.ResumeLayout(false);
             this.disconnectedPlayerMenu.ResumeLayout(false);
-            this.tabAlerts.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
