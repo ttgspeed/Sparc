@@ -488,6 +488,8 @@ namespace Sparc
                 if (p.getPlayerNumber() == playerNumber)
                 {
                     PlayerCache.Remove(p);
+                    p.setPlayerTime();
+                    Globals.GlobalPlayerCache.AddLast(p);
                     break;
                 }
             }
@@ -509,12 +511,15 @@ namespace Sparc
         {
             foreach (Player historicalPlayer in Globals.GlobalPlayerCache)
             {
-                if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid())
+                int hopTime = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Seconds;
+                Console.WriteLine(DateTime.Now);
+                Console.WriteLine(historicalPlayer.getPlayerTime());
+                //DateTime hopTime = p.getPlayerTime();
+                if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid() /*&& hopTime < 60*/)
                 {
-                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " was previously seen on " + historicalPlayer.getPlayerHost());
+                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " disconnected from " + historicalPlayer.getPlayerHost() +" "+ hopTime + " minutes ago.");
                 }
             }
-            Globals.GlobalPlayerCache.AddLast(p);
         }
 
         private Player parsePlayer(string line)

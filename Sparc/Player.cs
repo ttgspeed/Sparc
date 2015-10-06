@@ -4,6 +4,7 @@ using System.Net;
 public class Player
 {
     string host, number, ip, ping, guid, name;
+    DateTime time;
     bool lobby;
 
 	public Player(string host, string number, string ip, string ping, string guid, string name, bool lobby)
@@ -15,6 +16,7 @@ public class Player
         this.guid = guid;
         this.name = name;
         this.lobby = lobby;
+        this.time = DateTime.Now;
 	}
 
     public string getPlayerHost()
@@ -52,9 +54,19 @@ public class Player
         return (lobby) ? "Lobby (" + DateTime.Now.ToString("HH:mm") +")": "In Game";
     }
 
+    public DateTime getPlayerTime()
+    {
+        return time;
+    }
+
     public string[] getPlayerInfo()
     {
         string[] playerinfo = new string[] { number, name, getPlayerStatus(), guid, ip, ping };
         return playerinfo;
+    }
+
+    public void setPlayerTime()
+    {
+        this.time = DateTime.Now;
     }
 }
