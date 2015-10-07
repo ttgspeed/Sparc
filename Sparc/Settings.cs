@@ -71,7 +71,7 @@ namespace Sparc
             stLoadBanConnect.Checked = Properties.Settings.Default.loadBanConnect;
             ToolTip1.SetToolTip(this.stLoadBanConnect, "Should Sparc automatically load bans on connect? (Recommended to be turned off for servers with a big banlist!)");
             stDetectServhop.Checked = Properties.Settings.Default.detectSrvHop;
-            ToolTip1.SetToolTip(this.stLoadBanConnect, "Detect players that are hopping between servers you are connected to (useful for detecting touble players)");
+            ToolTip1.SetToolTip(this.stDetectServhop, "Detect players that are hopping between servers you are connected to (useful for detecting touble players)");
             sparcVersion.Text =  Globals.sparcVersion;
         }
 
