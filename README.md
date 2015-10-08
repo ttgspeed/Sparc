@@ -8,9 +8,10 @@ Key Features
 - Save your favorite servers and quickly connect to them.
 - Connect to **multiple servers simultaneously** through Sparc's server tab system!
 - Easy and intuitive lists showing player-, ban- and admins list with a search filter on multiple columns.
+- Detect 'Server Hopping', monitors players switching between servers loaded in Sparc and outputs them in the Alerts tab.
 - Players are automatically added and removed from the player list upon [dis]connect, no need to refresh.
-- Three tabs (All, Chat, Console) to keep track of everything that is happening on the server.
-- These three tabs can also be logged to text files and will then be timestamped and appended with the hostname.
+- Four tabs (All, Chat, Console, Alerts) to keep track of everything that is happening on the server.
+- These four tabs can also be logged to text files and will then be timestamped and appended with the hostname.
 - Each chat type is portrayed in a different color so they can be easily distinguished.
 - Self-explanatory "Settings" page with extra information displayed on hover.
 - Flash the Sparc window either when an admin or your name is called!
@@ -35,4 +36,4 @@ Sparc is released under the GPL v2
 
 *** 
 #Preview
-![image](http://i.imgur.com/xMq1MJT.png)
+![image](http://i.imgur.com/Y5RCXcE.png)
