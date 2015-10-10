@@ -511,13 +511,10 @@ namespace Sparc
         {
             foreach (Player historicalPlayer in Globals.GlobalPlayerCache)
             {
-                int hopTime = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Seconds;
-                Console.WriteLine(DateTime.Now);
-                Console.WriteLine(historicalPlayer.getPlayerTime());
-                //DateTime hopTime = p.getPlayerTime();
+                string hopTime = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Minutes + " minutes, "+ DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Seconds+" seconds";
                 if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid() /*&& hopTime < 60*/)
                 {
-                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " disconnected from " + historicalPlayer.getPlayerHost() +" "+ hopTime + " minutes ago.");
+                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " disconnected from " + historicalPlayer.getPlayerHost() +" "+ hopTime + " ago.");
                 }
             }
         }
