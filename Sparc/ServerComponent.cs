@@ -276,56 +276,17 @@ namespace Sparc
         private void formatChat(string text)
         {
             if (text.Contains("(Direct)"))
-            {
-                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username)) // Logic:(i f admin is called and admin hightlighting is selected) OR (if username highlighting is selected)
-                    appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
-                else
-                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
-            }
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.LightSlateGray);
             else if (text.Contains("(Unknown)"))
-            {
-                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
-                    appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.MediumPurple);
-                else
-                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.MediumPurple);
-            }
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
             else if (text.Contains("(Group)"))
-            {
-                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
-                    appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
-                else
-                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
-            }
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
             else if (text.Contains("(Vehicle)"))
-            {
-                if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || text.containsIgnoreCase(Properties.Settings.Default.Username))
-                    appendBoldChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
-                else
-                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
-            }
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
             else if (text.Contains("(Global)"))
-            {
-                    appendChat("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text, Color.Red);
-            }
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.Red);
             else
-            {
-                txAll.SelectionColor = Color.Black;
-                txAll.SelectionFont = new Font("Lucida Console", 8);
-                txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
-                txConsole.SelectionColor = Color.Black;
-                txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
-                txConsole.SelectionFont = new Font("Lucida Console", 8);
-
-                if (Properties.Settings.Default.RefreshPlayerChange && (text.Contains("Player") && (text.Contains("disconnected") || text.Contains("connected"))))
-                {
-                    if (!cooldownTimer.Enabled)
-                    {
-                        cooldownTimer.Interval = 5000; // this should honestly be enough
-                        cooldownTimer.Start();
-                        getConnectedClients();
-                    }
-                }
-            }
+                appendConsole(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
 
             if (Properties.Settings.Default.saveLogs)
             {
@@ -346,45 +307,47 @@ namespace Sparc
             cooldownTimer.Stop();
         }
 
-        private void chatAlert(string text)
-        {
-            if (text.containsIgnoreCase("admin") && Properties.Settings.Default.flashOnCall)
-            {
-                Flash.FlashWindowEx(this.ParentForm);
-                txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
-            }
-            if (text.containsIgnoreCase(Properties.Settings.Default.Username) && Properties.Settings.Default.flashOnCall)
-            {
-                Flash.FlashWindowEx(this.ParentForm);
-                txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
-                //this.Parent.color
-            }
-        }
-
         private void appendChat(string text, Color color)
         {
-            chatAlert(text);
+            Font selfont;
+
+            if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || (text.containsIgnoreCase(Properties.Settings.Default.Username) && Properties.Settings.Default.hlName))
+            {
+                selfont = new Font("Lucida Console", 8, FontStyle.Bold);
+                chatAlert(text);
+            }
+            else
+            {
+                selfont = new Font("Lucida Console", 8);
+            }
 
             txAll.SelectionColor = color;
             txChat.SelectionColor = color;
-            txAll.SelectionFont = new Font("Lucida Console", 8);
-            txChat.SelectionFont = new Font("Lucida Console", 8);
+            txAll.SelectionFont = selfont;
+            txChat.SelectionFont = selfont;
             txAll.AppendText(text);
             txChat.AppendText(text);
         }
 
-        private void appendBoldChat(string text, Color color)
+        private void appendConsole(string text)
         {
-            chatAlert(text);
-
-            txAll.SelectionColor = color;
-            txChat.SelectionColor = color;
-            txAll.SelectionFont = new Font("Lucida Console", 8, FontStyle.Bold);
-            txChat.SelectionFont = new Font("Lucida Console", 8, FontStyle.Bold);
+            txAll.SelectionColor = Color.Black;
+            txConsole.SelectionColor = Color.Black;
+            txAll.SelectionFont = new Font("Lucida Console", 8);
+            txConsole.SelectionFont = new Font("Lucida Console", 8);
             txAll.AppendText(text);
-            txChat.AppendText(text);
+            txConsole.AppendText(text);
         }
-        
+
+        private void chatAlert(string text)
+        {
+            Flash.FlashWindowEx(this.ParentForm);
+
+            txAlert.SelectionColor = Color.Black;
+            txAlert.SelectionFont = new Font("Lucida Console", 8);
+            txAlert.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
+        }
+
         #endregion
 
         /*
@@ -513,10 +476,12 @@ namespace Sparc
         {
             foreach (Player historicalPlayer in Globals.GlobalPlayerCache)
             {
-                string hopTime = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Minutes + " minutes, "+ DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Seconds+" seconds";
-                if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid() /*&& hopTime < 60*/)
+                int hopMinutes = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Minutes;
+                int hopSeconds = DateTime.Now.Subtract(historicalPlayer.getPlayerTime()).Seconds;
+
+                if (p.getPlayerGuid() == historicalPlayer.getPlayerGuid() && hopMinutes < 60)
                 {
-                    txAlert.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " disconnected from " + historicalPlayer.getPlayerHost() +" "+ hopTime + " ago.");
+                    txAlert.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + p.getPlayerName() + " disconnected from " + historicalPlayer.getPlayerHost() +" "+ hopMinutes + " minutes, " + hopSeconds + " seconds ago.");
                 }
             }
         }
@@ -743,9 +708,9 @@ namespace Sparc
             string text = "Refreshing players...";
             txAll.SelectionColor = Color.Black;
             txAll.SelectionFont = new Font("Lucida Console", 8);
-            txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
             txConsole.SelectionColor = Color.Black;
-            txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
             txConsole.SelectionFont = new Font("Lucida Console", 8);
 
             await Task.Delay(1000);
@@ -760,9 +725,9 @@ namespace Sparc
             string text = "Refreshing bans...";
             txAll.SelectionColor = Color.Black;
             txAll.SelectionFont = new Font("Lucida Console", 8);
-            txAll.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txAll.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
             txConsole.SelectionColor = Color.Black;
-            txConsole.AppendText("\n" + DateTime.Now.ToString("[dd MMM, yyyy | HH:mm:ss] ") + text);
+            txConsole.AppendText(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
             txConsole.SelectionFont = new Font("Lucida Console", 8);
 
             await Task.Delay(1000);
