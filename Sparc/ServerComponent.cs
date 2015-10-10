@@ -332,10 +332,12 @@ namespace Sparc
                 string log = Path.Combine(dir, "log_" + host + "_" + timestamp + ".txt");
                 string chatlog = Path.Combine(dir, "chatlog_" + host + "_" + timestamp + ".txt");
                 string consolelog = Path.Combine(dir, "consolelog_" + host + "_" + timestamp + ".txt");
+                string alertslog = Path.Combine(dir, "alertslog_" + host + "_" + timestamp + ".txt");
 
                 txAll.SaveFile(log, RichTextBoxStreamType.PlainText);
                 txChat.SaveFile(chatlog, RichTextBoxStreamType.PlainText);
                 txConsole.SaveFile(consolelog, RichTextBoxStreamType.PlainText);
+                txAlert.SaveFile(alertslog, RichTextBoxStreamType.PlainText);
             }
         }
 
