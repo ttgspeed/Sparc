@@ -276,15 +276,15 @@ namespace Sparc
         private void formatChat(string text)
         {
             if (text.Contains("(Direct)"))
-                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.LightSlateGray);
-            else if (text.Contains("(Unknown)"))
-                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue);
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.LightSlateGray, false);
+            else if (text.Contains("(Unknown)")||text.Contains("(Side)"))
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue, false);
             else if (text.Contains("(Group)"))
-                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen);
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen, false);
             else if (text.Contains("(Vehicle)"))
-                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange);
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkOrange, false);
             else if (text.Contains("(Global)"))
-                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.Red);
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.Red, true);
             else
                 appendConsole(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text);
 
@@ -307,11 +307,11 @@ namespace Sparc
             cooldownTimer.Stop();
         }
 
-        private void appendChat(string text, Color color)
+        private void appendChat(string text, Color color, bool ignoreAlert)
         {
             Font selfont;
 
-            if ((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || (text.containsIgnoreCase(Properties.Settings.Default.Username) && Properties.Settings.Default.hlName))
+            if (((text.containsIgnoreCase("admin") && Properties.Settings.Default.hlAdmin) || (text.containsIgnoreCase(Properties.Settings.Default.Username) && Properties.Settings.Default.hlName)) && !ignoreAlert)
             {
                 selfont = new Font("Lucida Console", 8, FontStyle.Bold);
                 chatAlert(text);

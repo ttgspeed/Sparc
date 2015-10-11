@@ -11,9 +11,6 @@
     <Setting Name="hlName" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="flashOnCall" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="qbTime" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>
     </Setting>
