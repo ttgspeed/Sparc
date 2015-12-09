@@ -52,8 +52,21 @@ namespace Sparc
 		    listviewX = (ListViewItem)x;
 		    listviewY = (ListViewItem)y;
 
-		    // Compare the two items
-		    compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text,listviewY.SubItems[ColumnToSort].Text);
+		    // Needed for numeric sorting
+		    string xValue = listviewX.SubItems[ColumnToSort].Text;
+		    string yValue = listviewY.SubItems[ColumnToSort].Text;
+		    double xNumber = 0, yNumber = 0;
+		    bool parsed = double.TryParse(xValue, out xNumber);
+		    parsed = parsed && double.TryParse(yValue, out yNumber);
+		    if (parsed)
+		    {
+			    compareResult = xNumber.CompareTo(yNumber);
+		    }
+		    else
+		    {
+			    // Compare the two items
+			    compareResult = ObjectCompare.Compare(listviewX.SubItems[ColumnToSort].Text, listviewY.SubItems[ColumnToSort].Text);
+		    }
 			
 		    // Calculate correct return value based on object comparison
 		    if (OrderOfSort == SortOrder.Ascending)
