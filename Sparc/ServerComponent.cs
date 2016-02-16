@@ -112,7 +112,7 @@ namespace Sparc
             }
         }
 
-        private async void handleConnect()
+        private void handleConnect()
         {
             isConnected = true;
             btnConnect.Text = "Disconnect";

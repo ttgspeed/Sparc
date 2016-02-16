@@ -5,7 +5,7 @@ namespace GlobalVariables
 {
     public static class Globals
     {
-        public const String sparcVersion = "0.5.3"; // Current Sparc version
+        public const String sparcVersion = "0.5.4"; // Current Sparc version
         public static LinkedList<Player> GlobalPlayerCache = new LinkedList<Player>();
     }
 }
