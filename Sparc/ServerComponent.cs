@@ -31,6 +31,7 @@ namespace Sparc
 
         private Sort plSorter;
         private Sort slSorter;
+        private Sort dlSorter;
 
         private Timer refreshTimer;
         private Timer cooldownTimer;
@@ -56,8 +57,10 @@ namespace Sparc
 
             plSorter = new Sort();
             slSorter = new Sort();
+            dlSorter = new Sort();
             this.listPlayers.ListViewItemSorter = plSorter;
             this.listServers.ListViewItemSorter = slSorter;
+            this.listDisconnected.ListViewItemSorter = dlSorter;
 
             searchBox.SelectedIndex = 0;
             cooldownTimer = new Timer();
@@ -277,8 +280,10 @@ namespace Sparc
         {
             if (text.Contains("(Direct)"))
                 appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.LightSlateGray, false);
-            else if (text.Contains("(Unknown)")||text.Contains("(Side)"))
+            else if (text.Contains("(Side)"))
                 appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DodgerBlue, false);
+            else if (text.Contains("(Unknown)"))
+                appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.DarkViolet, false);
             else if (text.Contains("(Group)"))
                 appendChat(DateTime.Now.ToString("\n[dd MMM, yyyy | HH:mm:ss] ") + text, Color.ForestGreen, false);
             else if (text.Contains("(Vehicle)"))
@@ -764,6 +769,21 @@ namespace Sparc
             this.listServers.Sort();
         }
 
+        private void listDisconnected_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            if (e.Column == dlSorter.SortColumn)
+            {
+                dlSorter.Order = (dlSorter.Order == SortOrder.Ascending) ? dlSorter.Order = SortOrder.Descending : dlSorter.Order = SortOrder.Ascending;
+            }
+            else
+            {
+                dlSorter.SortColumn = e.Column;
+                dlSorter.Order = SortOrder.Ascending;
+            }
+
+            this.listDisconnected.Sort();
+        }
+
         #endregion
 
         /*
@@ -891,6 +911,24 @@ namespace Sparc
                 b.SendCommand("ban " + lastSelected.SubItems[0].Text + " " + time + " " + message);
             }
             modal.Dispose();
+        }
+
+        private void miSplunkPQuery_Click(object sender, System.EventArgs e)
+        {
+            // Navigate to Splunk Query.
+            System.Diagnostics.Process.Start("https://asylum.level-gaming.com:8000/en-US/app/ALMS/player_query_view?form.GUID=" + lastSelected.SubItems[3].Text);
+        }
+
+        private void miAsylumQuery_Click(object sender, System.EventArgs e)
+        {
+            // Navigate to My Asylum.
+            System.Diagnostics.Process.Start("http://my.gaming-asylum.com/playerlist.php?guid=" + lastSelected.SubItems[3].Text);
+        }
+        
+        private void miSplunkAlias_Click(object sender, System.EventArgs e)
+        {
+            // Navigate to Splunk Alias.
+            System.Diagnostics.Process.Start("https://asylum.level-gaming.com:8000/en-US/app/ALMS/player_aliases?form.GUID=" + lastSelected.SubItems[3].Text);
         }
 
         private void miQuickBan_Click(object sender, System.EventArgs e)

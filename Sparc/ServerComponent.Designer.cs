@@ -86,6 +86,10 @@
             this.msiCopyGUID = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyIP = new System.Windows.Forms.ToolStripMenuItem();
             this.msiCopyName = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSplunk = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSplunkPQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.miAsylumQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.miSplunkAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.miMessage = new System.Windows.Forms.ToolStripMenuItem();
             this.miKick = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,6 +133,10 @@
             this.dmsiCopyGUID = new System.Windows.Forms.ToolStripMenuItem();
             this.dmsiCopyIP = new System.Windows.Forms.ToolStripMenuItem();
             this.dmsiCopyName = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmiSplunk = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmiSplunkPQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmiAsylumQuery = new System.Windows.Forms.ToolStripMenuItem();
+            this.dmiSplunkAlias = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.dmiBan = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
@@ -636,6 +644,7 @@
             this.listDisconnected.TabIndex = 1;
             this.listDisconnected.UseCompatibleStateImageBehavior = false;
             this.listDisconnected.View = System.Windows.Forms.View.Details;
+            this.listDisconnected.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listDisconnected_ColumnClick);
             this.listDisconnected.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listDisconnected_MouseClick);
             // 
             // columnHeader1
@@ -671,6 +680,7 @@
             // 
             this.playerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.miCopy,
+            this.miSplunk,
             this.toolStripSeparator4,
             this.miMessage,
             this.miKick,
@@ -678,7 +688,7 @@
             this.toolStripSeparator2,
             this.miQuickBan});
             this.playerMenu.Name = "playerMenu";
-            this.playerMenu.Size = new System.Drawing.Size(129, 126);
+            this.playerMenu.Size = new System.Drawing.Size(129, 148);
             // 
             // miCopy
             // 
@@ -710,6 +720,37 @@
             this.msiCopyName.Size = new System.Drawing.Size(106, 22);
             this.msiCopyName.Text = "Name";
             this.msiCopyName.Click += new System.EventHandler(this.msiCopyName_Click);
+            // 
+            // miSplunk
+            // 
+            this.miSplunk.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.miSplunkPQuery,
+            this.miAsylumQuery,
+            this.miSplunkAlias});
+            this.miSplunk.Name = "miSplunk";
+            this.miSplunk.Size = new System.Drawing.Size(128, 22);
+            this.miSplunk.Text = "Search";
+            // 
+            // miSplunkPQuery
+            // 
+            this.miSplunkPQuery.Name = "miSplunkPQuery";
+            this.miSplunkPQuery.Size = new System.Drawing.Size(169, 22);
+            this.miSplunkPQuery.Text = "Splunk Search";
+            this.miSplunkPQuery.Click += new System.EventHandler(this.miSplunkPQuery_Click);
+            // 
+            // miAsylumQuery
+            // 
+            this.miAsylumQuery.Name = "miAsylumQuery";
+            this.miAsylumQuery.Size = new System.Drawing.Size(169, 22);
+            this.miAsylumQuery.Text = "MyAsylum Search";
+            this.miAsylumQuery.Click += new System.EventHandler(this.miAsylumQuery_Click);
+            // 
+            // miSplunkAlias
+            // 
+            this.miSplunkAlias.Name = "miSplunkAlias";
+            this.miSplunkAlias.Size = new System.Drawing.Size(169, 22);
+            this.miSplunkAlias.Text = "Alias Lookup";
+            this.miSplunkAlias.Click += new System.EventHandler(this.miSplunkAlias_Click);
             // 
             // toolStripSeparator4
             // 
@@ -1041,12 +1082,13 @@
             // 
             this.disconnectedPlayerMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.dmiSplunk,
             this.toolStripSeparator6,
             this.dmiBan,
             this.toolStripSeparator7,
             this.dmiClear});
             this.disconnectedPlayerMenu.Name = "playerMenu";
-            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(123, 82);
+            this.disconnectedPlayerMenu.Size = new System.Drawing.Size(123, 104);
             // 
             // toolStripMenuItem1
             // 
@@ -1078,6 +1120,37 @@
             this.dmsiCopyName.Size = new System.Drawing.Size(106, 22);
             this.dmsiCopyName.Text = "Name";
             this.dmsiCopyName.Click += new System.EventHandler(this.msiCopyName_Click);
+            // 
+            // dmiSplunk
+            // 
+            this.dmiSplunk.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dmiSplunkPQuery,
+            this.dmiAsylumQuery,
+            this.dmiSplunkAlias});
+            this.dmiSplunk.Name = "dmiSplunk";
+            this.dmiSplunk.Size = new System.Drawing.Size(122, 22);
+            this.dmiSplunk.Text = "Search";
+            // 
+            // dmiSplunkPQuery
+            // 
+            this.dmiSplunkPQuery.Name = "dmiSplunkPQuery";
+            this.dmiSplunkPQuery.Size = new System.Drawing.Size(169, 22);
+            this.dmiSplunkPQuery.Text = "Splunk Search";
+            this.dmiSplunkPQuery.Click += new System.EventHandler(this.miSplunkPQuery_Click);
+            // 
+            // dmiAsylumQuery
+            // 
+            this.dmiAsylumQuery.Name = "dmiAsylumQuery";
+            this.dmiAsylumQuery.Size = new System.Drawing.Size(169, 22);
+            this.dmiAsylumQuery.Text = "MyAsylum Search";
+            this.dmiAsylumQuery.Click += new System.EventHandler(this.miAsylumQuery_Click);
+            // 
+            // dmiSplunkAlias
+            // 
+            this.dmiSplunkAlias.Name = "dmiSplunkAlias";
+            this.dmiSplunkAlias.Size = new System.Drawing.Size(169, 22);
+            this.dmiSplunkAlias.Text = "Alias Lookup";
+            this.dmiSplunkAlias.Click += new System.EventHandler(this.miSplunkAlias_Click);
             // 
             // toolStripSeparator6
             // 
@@ -1269,5 +1342,13 @@
         private System.Windows.Forms.ToolStripMenuItem dmiClear;
         private System.Windows.Forms.TabPage tabAlerts;
         private System.Windows.Forms.RichTextBox txAlert;
+        private System.Windows.Forms.ToolStripMenuItem miSplunk;
+        private System.Windows.Forms.ToolStripMenuItem miSplunkPQuery;
+        private System.Windows.Forms.ToolStripMenuItem miAsylumQuery;
+        private System.Windows.Forms.ToolStripMenuItem miSplunkAlias;
+        private System.Windows.Forms.ToolStripMenuItem dmiSplunk;
+        private System.Windows.Forms.ToolStripMenuItem dmiSplunkPQuery;
+        private System.Windows.Forms.ToolStripMenuItem dmiAsylumQuery;
+        private System.Windows.Forms.ToolStripMenuItem dmiSplunkAlias;
     }
 }
